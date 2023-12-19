@@ -28,7 +28,18 @@ void showAllData(dynamicArray stuArray, int size)
 
 int main()
 {
-    int mark = 0;
+    int sign = 0;
+
+#if 1
+    /* 测试判空宏注释 */
+    sign = dynamicArrayInit(NULL, BUFFER_SIZE);
+    printf("sign:%d\n", sign);
+
+#endif
+
+
+
+
 
 #if 0
     /* 测试扩容缩容 */
@@ -45,8 +56,8 @@ int main()
     for (int idx = 0; idx < BUFFER_SIZE * 50; idx++)
     {
         tmpNum = idx + 1;
-        mark = dynamicArrayInsertData(&array, tmpNum);
-        // printf("mark:%d\n", mark);
+        sign = dynamicArrayInsertData(&array, tmpNum);
+        // printf("sign:%d\n", sign);
     }
 
     /* 删除数据 */
@@ -81,8 +92,8 @@ int main()
     for (int idx = 0; idx < BUFFER_SIZE/4; idx++)
     {
         tmpNum = idx + 1;
-        mark = dynamicArrayInsertData(&numArray, tmpNum);
-        // printf("mark:%d\n", mark);
+        sign = dynamicArrayInsertData(&numArray, tmpNum);
+        // printf("sign:%d\n", sign);
     }
 
     /* 获取大小 */
@@ -98,7 +109,7 @@ int main()
     /* 取一个指定的数据-√ */
     int numPos = 0;
     dynamicArrayGetAppointPosVal(&numArray, numPos, &tmpNum);
-    printf("num[%d]:%d\n\n", numPos, tmpNum);
+    printf("num[%d]:%d\n========\n", numPos, tmpNum);
 
 
     /* 查看所有数据 */

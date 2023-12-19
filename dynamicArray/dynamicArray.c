@@ -14,6 +14,21 @@ enum STATUS_CODE
 
 #define DEFAULT_SIZE 10
 
+/* 判空 */
+#define JUDGE_NULL(pArray)          \
+if (NULL == pArray)                 \
+{                                   \
+    return NULL_PTR;                \
+}                                   \
+
+/* 判断pos合法性 */
+#define JUDGE_POS(pos, len)         \
+if (pos < 0 || pos >= len)          \
+{                                   \
+    return INVALID_ACCESS;          \
+}
+
+
 /* 静态函数---前置声明 */
 static int expandDynamicCapacity(dynamicArray *pArray);
 static int shrinkDynamicCapacity(dynamicArray *pArray);
@@ -22,10 +37,7 @@ static int shrinkDynamicCapacity(dynamicArray *pArray);
 /* 动态数组---初始化 */
 int dynamicArrayInit(dynamicArray *pArray, int capacity)
 {   /* 判空 */
-    if (NULL == pArray)
-    {
-        return NULL_PTR;
-    }
+    JUDGE_NULL(pArray);
 
     /* 分配空间 */
     if (capacity < 0)
@@ -92,15 +104,11 @@ static int expandDynamicCapacity(dynamicArray *pArray)  //原文件使用
 int dynamicArrayAppointInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE val)
 {
     /* 指针判空 */
-    if (NULL == pArray)
-    {
-        return NULL_PTR;
-    }
+    JUDGE_NULL(pArray);
+
     /* 判断位置合法性 */
-    if (pos < 0 || pos > pArray->len)
-    {
-        return INVALID_ACCESS;
-    }
+    JUDGE_POS(pos, pArray->len);
+
 
     /***扩容机制
      * 扩容算法未雨绸缪：数组大小的1.5倍 >= 数组容量
@@ -134,16 +142,10 @@ int dynamicArrayAppointInsertData(dynamicArray *pArray, int pos, ELEMENTTYPE val
 int dynamicArrayModifyAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val)
 {
     /* 指针判空 */
-    if (pArray == NULL)
-    {
-        return NULL_PTR;
-    }
+    JUDGE_NULL(pArray);
 
     /* 判断位置的合法性 */
-    if (pos < 0 || pos >= pArray->len)
-    {
-        return INVALID_ACCESS;
-    }
+    JUDGE_POS(pos, pArray->len);
 
     /* 更新位置的数据 */
     pArray->data[pos] = val;
@@ -191,16 +193,10 @@ static int shrinkDynamicCapacity(dynamicArray *pArray)
 int dynamicArrayDeleteAppointPosData(dynamicArray *pArray, int pos)
 {
     /* 指针判空 */
-    if (pArray == NULL)
-    {
-        return NULL_PTR;
-    }
-
+    JUDGE_NULL(pArray);
+    
     /* 判断位置的合法性 */
-    if (pos < 0 || pos >= pArray->len)
-    {
-        return INVALID_ACCESS;
-    }
+    JUDGE_POS(pos, pArray->len);
 
     /* 缩容 */
     if (pArray->len < (pArray->capacity >> 1)) // ??要缩多少就所多少不能有差错
@@ -300,16 +296,11 @@ int dynamicArrayGetCapacity(dynamicArray *pArray, int *pSize)
 int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal)
 {
     /* 判空 */
-    if (pArray == NULL)
-    {
-        return NULL_PTR;
-    }
+    JUDGE_NULL(pArray);
+    
     
     /* 判断位置的合法性 */
-    if (pos < 0 || pos >= pArray->len)
-    {
-        return INVALID_ACCESS;
-    }
+    JUDGE_POS(pos, pArray->len);
 
     if (pVal)
     {
