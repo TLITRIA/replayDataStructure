@@ -23,7 +23,7 @@ if (NULL == pArray)                 \
 
 /* 判断pos合法性 */
 #define JUDGE_POS(pos, len)         \
-if (pos < 0 || pos >= len)          \
+if (pos < 0 || pos > len)           \
 {                                   \
     return INVALID_ACCESS;          \
 }
@@ -300,7 +300,10 @@ int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVa
     
     
     /* 判断位置的合法性 */
-    JUDGE_POS(pos, pArray->len);
+    if (pos < 0 || pos >= pArray->len)          //todo-001 取用的宏函数要单独写 
+    {                                  
+        return INVALID_ACCESS;          
+    }
 
     if (pVal)
     {

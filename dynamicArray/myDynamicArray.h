@@ -1,13 +1,3 @@
-
-
-
-
-
-
-
-
-
-
 #ifndef __MYDYNAMICARRAY_H_
 #define __MYDYNAMICARRAY_H_
 
@@ -21,21 +11,28 @@
 typedef struct dynamicArray
 {
     ELEMENTTYPE * data;
-    int lenth;
+    int length;
     int capacity;
 } dynamicArray;
 
 
 /* 动态数组的初始化 */
-int dynamicArrayInit(dynamicArray *pArray, int capcity);
+int dynamicInit(dynamicArray *pArray, int capcity);
+
+/* 动态数组插入行末 */
+int dynamicInsertAppointData(dynamicArray *pArray, ELEMENTTYPE val);
+
+/* 动态数组插入指定位置 */
+int dynamicInsertAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val);
 
 /* 动态数组获取长度 */
-int dynamicArrayGetLength(dynamicArray *pArray, int *length);
-
+int dynamicGetLength(dynamicArray *pArray, int *length);
 
 /* 动态数组获取容量 */
+int dynamicGetCapacity(dynamicArray *pArray, int *capacity);
 
-
+/* 动态数组获取指定元素 */
+int dynamicGetPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal);
 
 
 

@@ -6,6 +6,9 @@
 #define BUFFER_SIZE 20
 #define DEFAULT_NUM 3
 
+#define PRINT(a)\
+printf("a=%d\n", a);\
+
 typedef struct stuInfo
 {
     int age;
@@ -30,11 +33,14 @@ int main()
 {
     int sign = 0;
 
-#if 1
+#if 0
     /* 测试判空宏注释 */
     sign = dynamicArrayInit(NULL, BUFFER_SIZE);
     printf("sign:%d\n", sign);
 
+    int a = 1, b = 2;
+    PRINT(a);
+    PRINT(b);
 #endif
 
 
@@ -75,13 +81,11 @@ int main()
     int numCap = 0;
     dynamicArrayGetCapacity(&array, &numCap);
     printf("numCap:%d\n", numCap);
-
-
 #endif
 
 
 
-#if 0
+#if 1
     /* int型作为动态数组的元素 */
     /* 初始化动态数组-√ */
     dynamicArray numArray;
@@ -89,11 +93,11 @@ int main()
 
     /* 插入数据 */
     ELEMENTTYPE tmpNum = 0;
-    for (int idx = 0; idx < BUFFER_SIZE/4; idx++)
+    for (int idx = 0; idx < BUFFER_SIZE; idx++)
     {
         tmpNum = idx + 1;
         sign = dynamicArrayInsertData(&numArray, tmpNum);
-        // printf("sign:%d\n", sign);
+        printf("sign:%d\n", sign);
     }
 
     /* 获取大小 */
@@ -221,7 +225,7 @@ int main()
     memset(&stuDel, 0, sizeof(stuDel));
     stuDel.age = 10;
     stuDel.sex = 'f';
-#if 0
+#if 1
     // stuInfo *stuNew = NULL;
     // stuNew->age = 500;
     // stuNew->sex = 'A';(void *)&stuNew段错误
@@ -230,7 +234,7 @@ int main()
     dynamicArrayModifyAppointPosData(&stuArray, 5, (void *)&stuNew);
 #elif 0
     dynamicArrayDeleteAppointPosData(&stuArray, 5);
-#elif 1
+#elif 0
     dynamicArrayDeleteAppointData(&stuArray, &stuDel);// 如何判定数组元素一致呢
 #endif
     dynamicArrayGetSize(&stuArray, &size);
@@ -249,7 +253,7 @@ int main()
         printf("动态数组已销毁\n");
     }
 
-    /* todo：验证自动扩容缩容的功能，已知不影响功能 */
+
     
 
 #endif
