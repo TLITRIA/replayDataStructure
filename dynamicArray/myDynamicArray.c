@@ -162,6 +162,62 @@ int dynamicInsertAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val)
     (pArray->length)++;
     return ON_SUCCESS;
 }
+
+/* 动态数组修改指定位置数据 */
+int dynamicModifyPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val)
+{
+    JUDGE_NULL(pArray);
+    JUDGE_POS_GET(pos, pArray->length);
+    pArray->data[pos] = val;
+    return ON_SUCCESS;
+}
+
+
+/* 动态数组删除数据-行末 */
+int dynamicDelLastData(dynamicArray *pArray)
+{
+    dynamicDelPosData(pArray, pArray->length - 1);
+}
+
+/* 动态数组删除数据-指定位置 */
+int dynamicDelPosData(dynamicArray *pArray, int pos)
+{
+    JUDGE_NULL(pArray);
+    JUDGE_POS_GET(pos, pArray->length);
+    IF_NEEDSHRINK(pArray);
+
+    for (int idx = pos; idx < pArray->length - 1; idx++)
+    {
+        pArray->data[idx] = pArray->data[idx + 1];
+    }
+    (pArray->length)--;
+    return ON_SUCCESS;
+}
+
+/* 动态数组删除数据-指定值 */
+int dynamicDelData(dynamicArray *pArray, int val)
+{
+    JUDGE_NULL(pArray);
+
+    for (int idx = pArray->length - 1; idx >= 0; idx--)
+    {
+        if (val == pArray->data[idx])
+        {
+            dynamicDelPosData(pArray, idx);
+        }
+    }
+
+    return ON_SUCCESS;
+}
+
+/* 动态数组销毁 */
+int dynamicDestroy(dynamicArray *pArray)
+{
+    JUDGE_NULL(pArray);
+    FREE(pArray->data);
+    return ON_SUCCESS;
+}
+
 /* 动态数组获取长度 */
 int dynamicGetLength(dynamicArray *pArray, int *length)
 {
