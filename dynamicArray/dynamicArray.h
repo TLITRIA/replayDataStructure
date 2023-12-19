@@ -53,3 +53,7 @@ int dynamicArrayGetCapacity(dynamicArray *pArray, int *pSize);
 int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal);
 
 #endif // __DYNAMIC_ARRAY_H_
+
+
+/*  END   */
+

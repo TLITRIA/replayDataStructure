@@ -30,7 +30,7 @@ int main()
 {
     int mark = 0;
 
-#if 1
+#if 0
     /* 测试扩容缩容 */
     /***
      * shrinkDynamicCapacity
@@ -245,3 +245,7 @@ int main()
     
     return 0;
 }
+
+
+/*  END   */
+

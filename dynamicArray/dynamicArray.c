@@ -322,3 +322,5 @@ int dynamicArrayGetAppointPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVa
 }
 
 
+/*  END   */
+
