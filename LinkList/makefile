@@ -1,11 +1,11 @@
-test01:main.o LinkList.o
-	gcc main.o LinkList.o -o test01
+test02:myTest.o myLinkList.o
+	gcc myTest.o myLinkList.o -o test02
 
-main.o:main.c
-	gcc -c main.c -o main.o
+myTest.o:myTest.c
+	gcc -c myTest.c -o myTest.o
 
-LinkList.o:LinkList.c
-	gcc -c LinkList.c -o LinkList.o
+myLinkList.o:myLinkList.c
+	gcc -c myLinkList.c -o myLinkList.o
 
 clean:
-	@rm -rf *.o test01
+	@rm -rf *.o test02

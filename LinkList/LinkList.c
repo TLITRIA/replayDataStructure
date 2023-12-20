@@ -1,76 +1,53 @@
-#include <stdio.h>
+#include "LinkList.h"
 #include <stdlib.h>
 #include <string.h>
-#include "LinkList.h"
+#include <stdio.h>
 
-
-
-
-enum STATUS_CODE 
+/* 状态码 */
+enum STATUS_CODE
 {
-    NOT_FOUND       = -4,
-    PTR_ERROR       = -3,
-    MALLOC_ERROR    = -2,
-    INVALID_ACCESS  = -1,
-    ON_SUCCESS      = 0,
+    NOT_FIND = -1,
+    ON_SUCCESS,
+    NULL_PTR,
+    MALLOC_ERROR,
+    INVALID_ACCESS,
 };
 
+/* 静态函数只在本源文件(.c)使用 */
 /* 静态前置声明 */
 static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
-/* 链表判空 */
-#define JUDGE_NULL(pin)\
-if (NULL == pin)\
-    return PTR_ERROR;\
-
-/* malloc是否成功分配？ */
-#define JUDGE_MALLOC(pin)\
-if (NULL == pin)\
-{\
-    printf("%-5s\n", #pin);\
-    return MALLOC_ERROR;\
-}\
-
-/* 判断位置是否合法 两种 */
-#define JUDGE_POS_INSERT(pos, len)\
-if (pos < 0 || pos > len)\
-    return INVALID_ACCESS;\
-
-#define JUDGE_POS_GET(pos, len)\
-if (pos < 0 || pos >= len)\
-    return INVALID_ACCESS;\
-
-/* 释放内存 */
-#define FREE(tmpPtr)\
-if (NULL != tmpPtr)\
-{\
-    free(tmpPtr);\
-    tmpPtr = NULL;\
-}\
-
 /* 链表初始化 */
-int LinkListInit(LinkList ** pList)
+int LinkListInit(LinkList **pList)
 {
+    int ret = 0;
     LinkList *list = (LinkList *)malloc(sizeof(LinkList) * 1);
-    JUDGE_MALLOC(list);
-    memset(list, 0, sizeof(LinkList) * 1);                      //  清空脏数据
+    if (list == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    /* 清空脏数据 */
+    memset(list, 0, sizeof(LinkList) * 1);
 
-    list->head = (LinkNode * )malloc(sizeof(LinkNode) * 1);
-    JUDGE_MALLOC(list->head);
-    memset(list->head, 0, sizeof(LinkNode) * 1);                //  清空脏数据
+    list->head = (LinkNode *)malloc(sizeof(LinkNode) * 1);
+    if (list->head == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    /* 清空脏数据 */
+    memset(list->head, 0, sizeof(LinkNode) * 1);
     list->head->data = 0;
     list->head->next = NULL;
-
-    /* 初始化时，尾指针 = 头指针 */
+    /* 初始化的时候, 尾指针 = 头指针 */
     list->tail = list->head;
 
-    /* 链表长度为0 */
-    list->len = 0; 
+    /* 链表的长度为0 */
+    list->len = 0;
 
     /* 二级指针 */
     *pList = list;
-
-    return ON_SUCCESS;
+    
+    return ret;
 }
 
 /* 链表头插 */
@@ -82,23 +59,37 @@ int LinkListHeadInsert(LinkList * pList, ELEMENTTYPE val)
 /* 链表尾插 */
 int LinkListTailInsert(LinkList * pList, ELEMENTTYPE val)
 {
+    /* todo... */
     return LinkListAppointPosInsert(pList, pList->len, val);
 }
 
 /* 链表指定位置插入 */
 int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 {
-    JUDGE_NULL(pList);
-    JUDGE_POS_INSERT(pos, pList->len);
+    int ret = 0;
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    
+    if (pos < 0 || pos > pList->len)
+    {
+        return INVALID_ACCESS;
+    }
 
     /* 封装结点 */
     LinkNode * newNode = (LinkNode *)malloc(sizeof(LinkNode) * 1);
-    JUDGE_MALLOC(newNode);
+    if (newNode == NULL)
+    {
+        return MALLOC_ERROR;
+    }
+    /* 清除脏数据 */
     memset(newNode, 0, sizeof(LinkNode) * 1);
-
 #if 1
-/* todo 什么 */
+    newNode->data = 0;
+    newNode->next = NULL;
 #endif
+    /* 赋值 */
     newNode->data = val;
 
 #if 1
@@ -107,146 +98,204 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 #else
     LinkNode * travelNode = pList->head->next;
 #endif
-    int flag = 0; //判断是否要同步尾指针
-    /* 需要同步尾指针 */
+
+    int flag = 0;
+    /* 这种情况下需要更改尾指针 */
     if (pos == pList->len)
     {
-        travelNode = pList->tail; //
-        flag = 1;
+        /* 修改结点指向 */
+        travelNode = pList->tail;
 #if 0
-        // newNode->next = travelNode->next;
-        // travelNode->next = newNode;
-        // pList->tail = newNode;
+        newNode->next = travelNode->next;   // 1
+        travelNode->next = newNode;         // 2
 #endif
+        flag = 1;
     }
     else
     {
-        while (pos--)
+        while (pos)
         {
             travelNode = travelNode->next;
+            pos--;
         }
     }
-    /* 修改节点指向 */
-        /* 先动哪一个结点？ */
-    newNode->next = travelNode->next;
-    travelNode->next = newNode;
+    newNode->next = travelNode->next;       // 1
+    travelNode->next = newNode;             // 2
     if (flag)
     {
+        /* 尾指针更新位置 */
         pList->tail = newNode;
     }
 
-    /* 更新链表长度 */
+    /* 更新链表的长度 */
     (pList->len)++;
-    return ON_SUCCESS;
+    return ret;
 }
 
 /* 链表头删 */
 int LinkListHeadDel(LinkList * pList)
 {
-    LinkListDelAppointPos(pList, 1);
+    return LinkListDelAppointPos(pList, 1);
 }
 
 /* 链表尾删 */
 int LinkListTailDel(LinkList * pList)
 {
-    LinkListDelAppointPos(pList, pList->len); /* todo */
+    return LinkListDelAppointPos(pList, pList->len);
 }
 
 /* 链表指定位置删 */
-int LinkListDelAppointPos(LinkList * pList, int pos)/* todo */
+int LinkListDelAppointPos(LinkList * pList, int pos)
 {
-    JUDGE_NULL(pList);
-    // JUDGE_POS_GET(pos, pList->len); 
-    if (pos <= 0|| pos > pList->len);
+    int ret = 0;
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
+    
+    if (pos <= 0 || pos > pList->len)
     {
         return INVALID_ACCESS;
     }
-    LinkNode * travelNode = pList->head;
-    // LinkNode * travelNode = pList->head->next;
 
-    while(--pos)
+#if 1
+    LinkNode * travelNode = pList->head;
+#else
+    LinkNode * travelNOde = pList->head->next;
+#endif 
+
+    int flag = 0;
+    /* 需要修改尾指针 */
+    if (pos == pList->len)
     {
+        /* 需要修改尾指针 */
+        flag = 1;
+    }
+    LinkNode * needDelNode = NULL;
+    while (--pos)
+    {
+        /* 向后移动位置 */
         travelNode = travelNode->next;
+    }   
+    // 跳出循环找到的是哪一个结点？
+    needDelNode = travelNode->next;                 // 1
+    travelNode->next = needDelNode->next;           // 2
+    
+    if (flag)
+    {
+        /* 调整尾指针 */
+        pList->tail = travelNode;
     }
 
-    // 跳出循环找到的是哪个结点？
-    LinkNode * needDelNode = travelNode->next;
-    travelNode->next = needDelNode->next;
+    /* 释放内存 */
+    if (needDelNode != NULL)
+    {
+        free(needDelNode);
+        needDelNode = NULL;
+    }
 
-    FREE(needDelNode);
+    /* 链表长度减一 */
     (pList->len)--;
-    return ON_SUCCESS;
+    return ret;
 }
 
+/* 根据指定的元素得到在链表中所在的位置 */
 static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos)
 {
-    LinkNode * travelNode = pList->head->next;
-    // LinkNode * travelNode = pList->head;
+    /* 静态函数只给本源文件的函数使用, 不需要判断合法性 */
+    int ret;
+    
+#if 0
+    int pos = 0;
+    LinkNode *travelNode = pList->head;
+#else
     int pos = 1;
-    while (NULL != travelNode->next)
+    LinkNode *travelNode = pList->head->next;
+#endif
+    while (travelNode != NULL)
     {
         if (travelNode->data == val)
         {
+            /* 解引用 */
             *pPos = pos;
             return pos;
         }
-        pos++;
         travelNode = travelNode->next;
+        pos++;
     }
-    return NOT_FOUND;
+    /* 解引用 */
+    *pPos = NOT_FIND;
+    
+    return NOT_FIND;
 }
 
-/* 链表删除指定结点--指定数值 */
+/* 链表删除指定的数据 */
 int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE val)
 {
-    JUDGE_NULL(pList);
-    
-    int pos = 0;    //元素在链表中的位置
-    int size = 0;   //链表长度
-    
-    while (LinkListGetLength(pList, &size) && pos != NOT_FOUND)
+    int ret = 0;
+    /* 元素在链表中的位置 */
+    int pos = 0;
+
+    /* 链表的长度 */
+    int size = 0;
+    while (LinkListGetLength(pList, &size) && pos != NOT_FIND)
     {
-        pos = LinkListAccordAppointValGetPos(pList, val, &pos);
+        /* 根据指定的元素得到在链表中所在的位置 */
+        LinkListAccordAppointValGetPos(pList, val, &pos);
         LinkListDelAppointPos(pList, pos);
     }
-
-
-    
-    return ON_SUCCESS;
+    return ret;
 }
 
 /* 获取链表的长度 */
 int LinkListGetLength(LinkList * pList, int *pSize)
 {
-    JUDGE_NULL(pList);
-    JUDGE_NULL(pSize);
-    *pSize = pList->len;
-    // return ON_SUCCESS;
+    int ret = 0;
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
+
+    if (pSize)
+    {
+        *pSize = pList->len;
+    }
+    /* 返回链表的长度 */
     return pList->len;
 }
 
-/* 链表销毁 */
+/* 链表的销毁 */
 int LinkListDestroy(LinkList * pList)
 {
-    int size;
-    /* 使用头删释放链表 */
+    int ret = 0;
+    /* 我们使用头删释放链表 */
+    int size = 0;
     while (LinkListGetLength(pList, &size))
     {
         LinkListHeadDel(pList);
     }
-    FREE(pList->head);
-    FREE(pList->tail);
-    return ON_SUCCESS;
+
+    if (pList->head != NULL)
+    {
+        free(pList->head);
+        /* 指针置为NULL. */
+        pList->head = NULL;
+        pList->tail = NULL;
+    }
+    return ret;
 }
 
-
-/* 链表遍历接口 */
-int LinkListForeach(LinkList * pList)
-{
-    JUDGE_NULL(pList);
-
-    
 #if 1
+/* 链表遍历接口 */
+int LinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
+{
+    int ret = 0;
+    if (pList == NULL)
+    {
+        return NULL_PTR;
+    }
+
+#if 0
     /* travelNode指向虚拟头结点 */
     LinkNode * travelNode = pList->head;
     while (travelNode->next != NULL)
@@ -255,15 +304,19 @@ int LinkListForeach(LinkList * pList)
         printf("travelNode->data:%d\n", travelNode->data);
     }
 #else
-    /* travelNode指向链表第一个元素 */ 
+    /* travelNode 指向链表第一个元素 */
     LinkNode * travelNode = pList->head->next;
     while (travelNode != NULL)
     {
+#if 0
         printf("travelNode->data:%d\n", travelNode->data);
+#else
+        /* 包装器 . 钩子🪝 . 回调函数 */
+        printFunc(travelNode->data);
+#endif
         travelNode = travelNode->next;
     }
 #endif
-    return ON_SUCCESS;
+    return ret;
 }
-
-/* END */
+#endif
