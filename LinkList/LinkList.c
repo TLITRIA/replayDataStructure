@@ -153,6 +153,7 @@ int LinkListForeach(LinkList * pList)
 
     
 #if 1
+    /* travelNode指向虚拟头结点 */
     LinkNode * travelNode = pList->head;
     while (travelNode->next != NULL)
     {
@@ -160,6 +161,7 @@ int LinkListForeach(LinkList * pList)
         printf("travelNode->data:%d\n", travelNode->data);
     }
 #else
+    /* travelNode指向链表第一个元素 */ 
     LinkNode * travelNode = pList->head->next;
     while (travelNode != NULL)
     {
