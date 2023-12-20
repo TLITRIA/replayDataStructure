@@ -18,6 +18,8 @@ typedef struct LinkList
     int len;
 } LinkList;
 
+static int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos);
+
 /* 链表初始化 */
 int myLinkListInit(LinkList ** pList);
 
@@ -29,6 +31,18 @@ int myLinkListInsertTail(LinkList * pList, ELEMENTTYPE val);
 
 /* 插入链表--指定位置插入 */
 int myLinkListInsertAppointPos(LinkList * pList, int pos, ELEMENTTYPE val);
+
+/* 删除链表--头删 */
+int myLinkListDelHead(LinkList * pList);
+
+/* 删除链表--尾删 */
+int myLinkListDelTail(LinkList * pList);
+
+/* 删除链表--指定位置删 */
+int myLinkListDelAppointPos(LinkList * pList, int pos);
+
+/* 删除链表--指定数据删 */
+int myLinkListDelAppointVal(LinkList * pList, int val);
 
 /* 获取链表--长度 */
 int myLinkListGetLength(LinkList * pList, int *size);

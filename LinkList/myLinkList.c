@@ -28,11 +28,6 @@ printf("%s:%d\n", #num, num);\
 
 #define PRINT printf("=========\n")
 
-// #define FREE(p)         
-// if (p != NULL)
-// {
-
-// }
 
 /* 根据值获取指定结点在链表的位置 */
 static int LinkListAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos);
@@ -129,13 +124,43 @@ int myLinkListInsertAppointPos(LinkList * pList, int pos, ELEMENTTYPE val)
     return ON_SUCCESS;
 }
 
+/* 删除链表--头删 */
+int myLinkListDelHead(LinkList * pList)
+{
+    myLinkListDelAppointPos(pList, START_POS);
+}
+
+/* 删除链表--尾删 */
+int myLinkListDelTail(LinkList * pList)
+{
+    myLinkListDelAppointPos(pList, pList->len);
+}
+
+
+/* 删除链表--指定位置删 */
+int myLinkListDelAppointPos(LinkList * pList, int pos)
+{
+    /* 1.确认指针非空、插入位置合法、判断尾指针是否要同步 */
+    JUDGE_NULL(pList);
+    if (pos < START_POS || pos < pList->len - 1)
+    {
+        return INVALID_ACCESS;
+    }
+
+
+}
+
+
+
+
+
 /* 获取链表--长度 */
 int myLinkListGetLength(LinkList * pList, int *size)
 {
     JUDGE_NULL(pList);
     JUDGE_NULL(size);
     *size = pList->len;
-    return ON_SUCCESS;
+    return pList->len;
 }
 
 /* 获取链表--遍历链表元素 */
@@ -153,7 +178,23 @@ int myLinkListForeach(LinkList * pList)
 }
 
 /* 销毁链表 */
-int myLinkListDestroy(LinkList * pList);
+int myLinkListDestroy(LinkList * pList)
+{
+    JUDGE_NULL(pList);
+    int size = 0;
+    /* 先销毁结点，后销毁链表指针 */
+    while (myLinkListGetLength(pList, &size))
+    {
+        myLinkListDelHead(pList);
+    }
+    if (pList->head != NULL)
+    {
+        free(pList->head);
+        pList->head = NULL;
+        pList->tail = NULL;
+    }
+    return ON_SUCCESS;
+}
 
 
 

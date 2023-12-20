@@ -3,8 +3,14 @@
 
 #define BUFFER_SIZE 3
 
-#define PRINT_INT(num) \
-printf("%s:%d\n", #num, num);\
+#define PRINT_INT(num)          \
+printf("%s:%d\n", #num, num);   \
+
+#define JUDGE_IFDESTROY(p)      \
+if (NULL == p)                  \
+    printf("链表以销毁\n");      \
+else                            \
+    printf("链表未销毁\n");      \
 
 int main()
 {
@@ -26,6 +32,9 @@ int main()
 
     myLinkListForeach(myList);
 
+    myLinkListDestroy(myList);
 
+    JUDGE_IFDESTROY(myList);
+    
     return 0;
 }
