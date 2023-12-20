@@ -50,6 +50,6 @@ int LinkListGetLength(LinkList * pList, int *pSize);
 /* 链表销毁 */
 int LinkListDestroy(LinkList * pList);
 
-
-
+/* 新增链表遍历接口 */
+int LinkListForeach(LinkList * pList);
 #endif
