@@ -6,15 +6,42 @@
 
 
 
+enum STATUS_CODE 
+{
+    ON_SUCCESS,
+    PTR_ERROR,
+    MALLOC_ERROR,
+    INVALID_ACCESS,
+};
 
+/* 链表判空 */
+#define JUDGE_NULL()\
+if ()\
 
-
-
-
+/* malloc是否成功分配？ */
+#define JUDGE_MALLOC(pin)\
+if (NULL == pin)\
+{\
+    return MALLOC_ERROR;\
+}\
 /* 链表初始化 */
 int LinkListInit(LinkList ** pList)
 {
+    LinkList *list = (LinkList *)malloc(sizeof(LinkList) * 1);
+    JUDGE_MALLOC(list);
+    memset(list, 0, sizeof(LinkList) * 1);                      //  清空脏数据
 
+    list->head = (LinkNode * )malloc(sizeof(LinkNode) * 1);
+    JUDGE_MALLOC(list->head);
+    memset(list->head, 0, sizeof(LinkNode) * 1);                //  清空脏数据
+
+    /* 链表长度为0 */
+    list->len = 0; 
+
+
+    /* 二级指针 */
+    *pList = list;
+    return ON_SUCCESS;
 }
 
 /* 链表头插 */
@@ -75,7 +102,7 @@ int LinkListDestroy(LinkList * pList)
 /* 链表遍历接口 */
 int LinkListForeach(LinkList * pList)
 {
-    
+
 }
 
 /* END */
