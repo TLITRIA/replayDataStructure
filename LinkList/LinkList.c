@@ -8,10 +8,10 @@
 
 enum STATUS_CODE 
 {
-    ON_SUCCESS,
-    PTR_ERROR,
-    MALLOC_ERROR,
-    INVALID_ACCESS,
+    PTR_ERROR = -3,
+    MALLOC_ERROR = -2,
+    INVALID_ACCESS = -1,
+    ON_SUCCESS = 0,
 };
 
 /* 链表判空 */
@@ -36,6 +36,13 @@ if (pos < 0 || pos > len)\
 if (pos < 0 || pos >= len)\
     return INVALID_ACCESS;\
 
+/* 释放内存 */
+#define FREE(tmpPtr)\
+if (NULL != tmpPtr)\
+{\
+    free(tmpPtr);\
+    tmpPtr = NULL;\
+}\
 
 /* 链表初始化 */
 int LinkListInit(LinkList ** pList)
@@ -132,24 +139,53 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 /* 链表头删 */
 int LinkListHeadDel(LinkList * pList)
 {
-    
+    LinkListDelAppointPos(pList, 1);
 }
 
 /* 链表尾删 */
 int LinkListTailDel(LinkList * pList)
 {
-    
+    LinkListDelAppointPos(pList, pList->len); /* todo */
 }
 
 /* 链表指定位置删 */
-int LinkListDelAppointPos(LinkList * pList, int pos)
+int LinkListDelAppointPos(LinkList * pList, int pos)/* todo */
 {
-    
+    JUDGE_NULL(pList);
+    // JUDGE_POS_GET(pos, pList->len); 
+    if (pos <= 0|| pos > pList->len);
+    {
+        return INVALID_ACCESS;
+    }
+    LinkNode * travelNode = pList->head;
+    // LinkNode * travelNode = pList->head->next;
+
+    while(--pos)
+    {
+        travelNode = travelNode->next;
+    }
+
+    // 跳出循环找到的是哪个结点？
+    LinkNode * needDelNode = travelNode->next;
+    travelNode->next = needDelNode->next;
+
+    FREE(needDelNode);
+    (pList->len)--;
+    return ON_SUCCESS;
 }
 
 /* 链表删除指定值 */
 int LinkListDelAppointData(LinkList * pList, int val)
 {
+    int size;
+    /* 使用头删释放链表 */
+    while (LinkListGetLength(pList, &size))
+    {
+        LinkListHeadDel(pList);
+    }
+    FREE(pList->head);
+    FREE(pList->tail);
+    
     
 }
 
@@ -159,7 +195,8 @@ int LinkListGetLength(LinkList * pList, int *pSize)
     JUDGE_NULL(pList);
     JUDGE_NULL(pSize);
     *pSize = pList->len;
-    return ON_SUCCESS;
+    // return ON_SUCCESS;
+    return pList->len;
 }
 
 /* 链表销毁 */
