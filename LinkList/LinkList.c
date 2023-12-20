@@ -8,11 +8,15 @@
 
 enum STATUS_CODE 
 {
-    PTR_ERROR = -3,
-    MALLOC_ERROR = -2,
-    INVALID_ACCESS = -1,
-    ON_SUCCESS = 0,
+    NOT_FOUND       = -4,
+    PTR_ERROR       = -3,
+    MALLOC_ERROR    = -2,
+    INVALID_ACCESS  = -1,
+    ON_SUCCESS      = 0,
 };
+
+/* 静态前置声明 */
+static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
 /* 链表判空 */
 #define JUDGE_NULL(pin)\
@@ -174,19 +178,41 @@ int LinkListDelAppointPos(LinkList * pList, int pos)/* todo */
     return ON_SUCCESS;
 }
 
-/* 链表删除指定值 */
-int LinkListDelAppointData(LinkList * pList, int val)
+static int LinkListAccordAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos)
 {
-    int size;
-    /* 使用头删释放链表 */
-    while (LinkListGetLength(pList, &size))
+    LinkNode * travelNode = pList->head->next;
+    // LinkNode * travelNode = pList->head;
+    int pos = 1;
+    while (NULL != travelNode->next)
     {
-        LinkListHeadDel(pList);
+        if (travelNode->data == val)
+        {
+            *pPos = pos;
+            return pos;
+        }
+        pos++;
+        travelNode = travelNode->next;
     }
-    FREE(pList->head);
-    FREE(pList->tail);
+    return NOT_FOUND;
+}
+
+/* 链表删除指定结点--指定数值 */
+int LinkListDelAppointData(LinkList * pList, ELEMENTTYPE val)
+{
+    JUDGE_NULL(pList);
     
+    int pos = 0;    //元素在链表中的位置
+    int size = 0;   //链表长度
     
+    while (LinkListGetLength(pList, &size) && pos != NOT_FOUND)
+    {
+        pos = LinkListAccordAppointValGetPos(pList, val, &pos);
+        LinkListDelAppointPos(pList, pos);
+    }
+
+
+    
+    return ON_SUCCESS;
 }
 
 /* 获取链表的长度 */
@@ -202,7 +228,15 @@ int LinkListGetLength(LinkList * pList, int *pSize)
 /* 链表销毁 */
 int LinkListDestroy(LinkList * pList)
 {
-    
+    int size;
+    /* 使用头删释放链表 */
+    while (LinkListGetLength(pList, &size))
+    {
+        LinkListHeadDel(pList);
+    }
+    FREE(pList->head);
+    FREE(pList->tail);
+    return ON_SUCCESS;
 }
 
 

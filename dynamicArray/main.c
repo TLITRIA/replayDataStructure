@@ -85,7 +85,7 @@ int main()
 
 
 
-#if 1
+#if 0
     /* int型作为动态数组的元素 */
     /* 初始化动态数组-√ */
     dynamicArray numArray;
