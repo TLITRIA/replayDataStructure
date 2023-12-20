@@ -47,6 +47,11 @@ int LinkListInit(LinkList ** pList)
     list->head = (LinkNode * )malloc(sizeof(LinkNode) * 1);
     JUDGE_MALLOC(list->head);
     memset(list->head, 0, sizeof(LinkNode) * 1);                //  清空脏数据
+    list->head->data = 0;
+    list->head->next = NULL;
+
+    /* 初始化时，尾指针 = 头指针 */
+    list->tail = list->head;
 
     /* 链表长度为0 */
     list->len = 0; 
@@ -91,15 +96,33 @@ int LinkListAppointPosInsert(LinkList * pList, int pos, ELEMENTTYPE val)
 #else
     LinkNode * travelNode = pList->head->next;
 #endif
-    while (pos)
+    int flag = 0; //判断是否要同步尾指针
+    /* 需要同步尾指针 */
+    if (pos == pList->len)
     {
-        travelNode = travelNode->next;
-        pos--;
+        travelNode = pList->tail; //
+        flag = 1;
+#if 0
+        // newNode->next = travelNode->next;
+        // travelNode->next = newNode;
+        // pList->tail = newNode;
+#endif
+    }
+    else
+    {
+        while (pos--)
+        {
+            travelNode = travelNode->next;
+        }
     }
     /* 修改节点指向 */
-    /* 先动哪一个结点？ */
+        /* 先动哪一个结点？ */
     newNode->next = travelNode->next;
     travelNode->next = newNode;
+    if (flag)
+    {
+        pList->tail = newNode;
+    }
 
     /* 更新链表长度 */
     (pList->len)++;

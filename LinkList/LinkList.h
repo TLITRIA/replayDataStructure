@@ -15,6 +15,7 @@ typedef struct LinkNode
 typedef struct LinkList
 {
     LinkNode * head;    //链表的虚拟头结点
+    LinkNode * tail;    //链表的尾指针  ？？为什么尾指针不需要分配空间
     int len;            //链表的长度
 } LinkList;
 
