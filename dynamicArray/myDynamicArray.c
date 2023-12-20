@@ -247,17 +247,5 @@ int dynamicGetPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal)
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 /*  END   */
 
