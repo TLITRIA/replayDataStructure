@@ -23,14 +23,24 @@ if (NULL == p)              \
     return MALLOC_ERROR;    \
 
 
+/* 输出 */
 #define PRINT_INT(num) \
-printf("%s:%d\n", #num, num);\
+//printf("%s:%d\n", #num, num);
 
-#define PRINT printf("=========\n")
+#define PRINT //printf("=========\n")
+#define PRINT_TAIL //printf("！尾结点更新\n")
+
+/* 释放指针 */
+#define FREE(p) \
+if (p != NULL)  \
+{               \
+    free(p);    \
+    p = NULL;   \
+}               \
 
 
 /* 根据值获取指定结点在链表的位置 */
-static int LinkListAppointValGetPos(LinkList * pList, ELEMENTTYPE val, int *pPos);
+static int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
 
 
@@ -118,16 +128,20 @@ int myLinkListInsertAppointPos(LinkList * pList, int pos, ELEMENTTYPE val)
     /* 同步尾结点 */
     if (flag)
     {
-        printf("尾结点更新。\n");
         pList->tail = newNode;
     }
+    // PRINT_TAIL;
     return ON_SUCCESS;
 }
+
+
+/* 改变链表元素?? */
+
 
 /* 删除链表--头删 */
 int myLinkListDelHead(LinkList * pList)
 {
-    myLinkListDelAppointPos(pList, START_POS);
+    myLinkListDelAppointPos(pList, START_POS + 1);//头结点不能删
 }
 
 /* 删除链表--尾删 */
@@ -142,16 +156,82 @@ int myLinkListDelAppointPos(LinkList * pList, int pos)
 {
     /* 1.确认指针非空、插入位置合法、判断尾指针是否要同步 */
     JUDGE_NULL(pList);
-    if (pos < START_POS || pos < pList->len - 1)
+    if (pos <= START_POS || pos > pList->len)
     {
         return INVALID_ACCESS;
     }
+    int flag = 0;
+    if (pos == pList->len)
+    {
+        flag = 1;
+    }
 
+    /* 2.封装遍历结点、待删除结点 */
+    LinkNode * travelNode = pList->head;
+    LinkNode * needDelNode = NULL;
 
+    /* 3.遍历到删除位置 */
+    while (--pos)
+    {
+        travelNode = travelNode->next;
+    }
+    /* 4.删除结点 */
+    needDelNode = travelNode->next;
+    travelNode->next = needDelNode->next;
+
+    /* 5.释放取出的结点空间 */
+    FREE(needDelNode);
+
+    /* 6.更新尾结点、链表长度 */
+    if (flag)
+    {
+        pList->tail = travelNode;
+    }
+    (pList->len)--;
+    PRINT_TAIL;
+
+    return ON_SUCCESS;
 }
 
+/* 根据值获取指定结点在链表的位置 */
+int myLinkListGetPosAccordVal(LinkList * pList, \
+                                    ELEMENTTYPE val, \
+                                    int *pPos)
+{
+    /* 1.封装遍历结点 */
+    int pos = 1;
+    LinkNode * travelNode = pList->head->next;
+    /* 2.寻找符合值的结点，返回pos */
+    while (travelNode != NULL)
+    {
+        if (travelNode->data == val)
+        {
+            *pPos = pos;
+            return pos;
+        }
+        travelNode = travelNode->next;
+        pos++;
+    }
+    /* 3.找不到就返回错误信息 */
+    /* 解应用 */
+    *pPos = NOT_FIND;
 
 
+    return NOT_FIND;
+}
+
+/* 删除链表--指定数据删 */
+int myLinkListDelAppointVal(LinkList * pList, int val)
+{
+    int pos = 0;
+    int size = 0;
+    while (myLinkListGetLength(pList, &size) >= 0 && pos != NOT_FIND)
+    {
+        myLinkListGetPosAccordVal(pList, val, &pos);
+        myLinkListDelAppointPos(pList, pos);
+    }
+    return ON_SUCCESS;
+}
 
 
 /* 获取链表--长度 */
@@ -167,6 +247,7 @@ int myLinkListGetLength(LinkList * pList, int *size)
 int myLinkListForeach(LinkList * pList)
 {
     JUDGE_NULL(pList);
+    // printf("遍历链表\n");
     LinkNode * travelNode = pList->head->next;
     while (travelNode != NULL)
     {
@@ -185,7 +266,7 @@ int myLinkListDestroy(LinkList * pList)
     /* 先销毁结点，后销毁链表指针 */
     while (myLinkListGetLength(pList, &size))
     {
-        myLinkListDelHead(pList);
+        myLinkListDelTail(pList);
     }
     if (pList->head != NULL)
     {
