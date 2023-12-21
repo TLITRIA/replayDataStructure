@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "myLinkList.h"
 
+// 状态码
 enum STATUS_CODE
 {
     NOT_FIND = -4,
@@ -90,7 +91,6 @@ int myLinkListInsertAppointPos(LinkList * pList, int pos, ELEMENTTYPE val)
         return INVALID_ACCESS;
     }
     int flag = 0;
-    
     if (pos == pList->len)
     {
         flag = 1;
@@ -122,20 +122,16 @@ int myLinkListInsertAppointPos(LinkList * pList, int pos, ELEMENTTYPE val)
     newNode->next = travelNode->next; 
     travelNode->next = newNode;      
 
-    /* 5.更新链表长度 */
+    /* 5.更新链表长度、同步尾结点 */
     (pList->len)++;
-
-    /* 同步尾结点 */
     if (flag)
     {
         pList->tail = newNode;
     }
-    // PRINT_TAIL;
+
     return ON_SUCCESS;
 }
 
-
-/* 改变链表元素?? */
 
 
 /* 删除链表--头删 */
@@ -156,7 +152,7 @@ int myLinkListDelAppointPos(LinkList * pList, int pos)
 {
     /* 1.确认指针非空、插入位置合法、判断尾指针是否要同步 */
     JUDGE_NULL(pList);
-    if (pos <= START_POS || pos > pList->len)
+    if (pos <= START_POS || pos > pList->len) // 头结点不删
     {
         return INVALID_ACCESS;
     }
@@ -188,7 +184,6 @@ int myLinkListDelAppointPos(LinkList * pList, int pos)
         pList->tail = travelNode;
     }
     (pList->len)--;
-    PRINT_TAIL;
 
     return ON_SUCCESS;
 }
@@ -213,16 +208,15 @@ int myLinkListGetPosAccordVal(LinkList * pList, \
         pos++;
     }
     /* 3.找不到就返回错误信息 */
-    /* 解应用 */
+    /* 解引用用 */
     *pPos = NOT_FIND;
-
-
     return NOT_FIND;
 }
 
 /* 删除链表--指定数据删 */
 int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val)
 {
+    // pos存放地址或错误信息，size获取链表长度
     int pos = 0;
     int size = 0;
     while (myLinkListGetLength(pList, &size) >= 0 && pos != NOT_FIND)
@@ -237,6 +231,7 @@ int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val)
 /* 获取链表--长度 */
 int myLinkListGetLength(LinkList * pList, int *size)
 {
+    // 两指针判空
     JUDGE_NULL(pList);
     JUDGE_NULL(size);
     *size = pList->len;
@@ -247,7 +242,6 @@ int myLinkListGetLength(LinkList * pList, int *size)
 int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
 {
     JUDGE_NULL(pList);
-    // printf("遍历链表\n");
     LinkNode * travelNode = pList->head->next;
     int pos = 1;
     while (travelNode != NULL)
@@ -256,7 +250,7 @@ int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
         printf("data:%d\n", travelNode->data);  
 #else
         printf("pos:%d\t", pos++);
-        printFunc(travelNode->data);
+        printFunc(travelNode->data);// 钩子函数实现自定义输出
 #endif
         travelNode = travelNode->next;
     }
@@ -276,9 +270,9 @@ int myLinkListDestroy(LinkList * pList)
     }
     if (pList->head != NULL)
     {
-        free(pList->head);
-        pList->head = NULL;
-        pList->tail = NULL;
+        free(pList->head);//释放头结点
+        pList->head = NULL;//链表指针
+        pList->tail = NULL;//链表指针
     }
     return ON_SUCCESS;
 }

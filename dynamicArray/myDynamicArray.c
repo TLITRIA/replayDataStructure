@@ -8,7 +8,7 @@
 /* 枚举错误类型 */
 enum MY_STATUS_CODE 
 {
-    ON_SUCCESS,
+    ON_SUCCESS = -4,
     PTR_ERROR,
     MALLOC_ERROR,
     INVALID_ACCESS,
@@ -67,6 +67,7 @@ if (pArray->length < pArray->capacity >> 1 )\
 /* 动态数组的初始化 */
 int dynamicInit(dynamicArray *pArray, int capcity)
 {
+    /*判空*/
     JUDGE_NULL(pArray);
     
     if (capcity < 0)
