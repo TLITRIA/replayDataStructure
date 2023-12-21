@@ -34,11 +34,11 @@ int printStuInfo(void *arg)
     printf("info->age:%d, info->sex:%c\n", info->age, info->sex);
 }
 
-
-
-
-
-
+int printInt(int arg)
+{
+    int data = arg;
+    printf("info:%d\n", data);
+}
 
 int main()
 {
@@ -46,7 +46,7 @@ int main()
     LinkList *myList = NULL;
     myLinkListInit(&myList);
 
-#if 0
+#if 1
     
     //插入数据
     ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};
@@ -61,7 +61,7 @@ int main()
     myLinkListGetLength(myList, &size);
     PRINT_INT(size);
     //遍历链表
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
 
 
     // 插入删除数据
@@ -69,13 +69,13 @@ int main()
     myLinkListInsertHead(myList, 2);
     myLinkListInsertHead(myList, 2);
     myLinkListInsertHead(myList, 2);
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
 
     printf("尾插\n");//√
     myLinkListInsertTail(myList, 5);
     myLinkListInsertTail(myList, 5);
     myLinkListInsertTail(myList, 5);
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
 
     /** 头删失效 
      * 参数错误，已解决 
@@ -83,20 +83,20 @@ int main()
     printf("头删\n");//√
     myLinkListDelHead(myList);
     myLinkListDelHead(myList);
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
     
     printf("尾删\n");//√
     myLinkListDelTail(myList);
     myLinkListDelTail(myList);
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
     
     printf("指定位置删\n");//头、尾、中？
     myLinkListDelAppointPos(myList, 2);
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
     
     printf("指定数据删\n");//√
     myLinkListDelAppointVal(myList, 2);
-    myLinkListForeach(myList);
+    myLinkListForeach(myList, printInt);
     
     /**删除链表出现错误，因为调用了head
      * 没能删掉链表，因为判断已销毁的条件是头结点为NULL
@@ -104,9 +104,9 @@ int main()
     myLinkListDestroy(myList);
 
     JUDGE_IFDESTROY(myList->head);
-#endif 
 
-#if 1
+
+#else 
     stuInfo stu1, stu2, stu3;
     memset(&stu1, 0, sizeof(stu1));
     memset(&stu2, 0, sizeof(stu2));
@@ -133,12 +133,6 @@ int main()
 
     /* 遍历 */
     myLinkListForeach(myList, printStuInfo);
-
-
-
-
-
-
 #endif
 
     return 0;

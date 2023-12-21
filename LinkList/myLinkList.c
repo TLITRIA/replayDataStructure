@@ -249,11 +249,13 @@ int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
     JUDGE_NULL(pList);
     // printf("遍历链表\n");
     LinkNode * travelNode = pList->head->next;
+    int pos = 1;
     while (travelNode != NULL)
     {
 #if 0
         printf("data:%d\n", travelNode->data);  
 #else
+        printf("pos:%d\t", pos++);
         printFunc(travelNode->data);
 #endif
         travelNode = travelNode->next;
