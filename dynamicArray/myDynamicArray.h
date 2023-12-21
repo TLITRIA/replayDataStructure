@@ -1,5 +1,8 @@
 #ifndef __MYDYNAMICARRAY_H_
 #define __MYDYNAMICARRAY_H_
+// 防止重定义
+
+// 两种元素类型
 
 #if 1
 #define ELEMENTTYPE int
@@ -7,6 +10,7 @@
 #define ELEMENTTYPE void*
 #endif
 
+// 动态数组类型-数组、长度、容量
 
 typedef struct dynamicArray
 {
@@ -16,38 +20,37 @@ typedef struct dynamicArray
 } dynamicArray;
 
 
-/* 动态数组的初始化 */
+/* 初始化动态数组 */
 int dynamicInit(dynamicArray *pArray, int capcity);
 
-/* 动态数组插入-行末 */
+/* 插入动态数组--行末 */
 int dynamicInsertAppointData(dynamicArray *pArray, ELEMENTTYPE val);
 
-/* 动态数组插入-指定位置 */
+/* 插入动态数组--指定位置 */
 int dynamicInsertAppointPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val);
 
-/* 动态数组修改指定位置数据 */
+/* 修改动态数组--指定位置 */
 int dynamicModifyPosData(dynamicArray *pArray, int pos, ELEMENTTYPE val);
 
-
-/* 动态数组删除数据-行末 */
+/* 删除动态数组数据--行末 */
 int dynamicDelLastData(dynamicArray *pArray);
 
-/* 动态数组删除数据-指定位置 */
+/* 删除动态数组数据-指定位置 */
 int dynamicDelPosData(dynamicArray *pArray, int pos);
 
-/* 动态数组删除数据-指定值 */
+/* 删除动态数组数据-所有指定值 */
 int dynamicDelData(dynamicArray *pArray, int val);
 
-/* 动态数组销毁 */
+/* 销毁动态数组 */
 int dynamicDestroy(dynamicArray *pArray);
 
-/* 动态数组获取长度 */
+/* 获取长度 */
 int dynamicGetLength(dynamicArray *pArray, int *length);
 
-/* 动态数组获取容量 */
+/* 获取容量 */
 int dynamicGetCapacity(dynamicArray *pArray, int *capacity);
 
-/* 动态数组获取指定元素 */
+/* 获取指定位置的值 */
 int dynamicGetPosVal(dynamicArray *pArray, int pos, ELEMENTTYPE *pVal);
 
 

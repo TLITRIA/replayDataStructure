@@ -159,7 +159,7 @@ int main()
 
 
 
-#if 0
+#if 1
 /* #define ELEMENTTYPE void* 将结构体做为元素 */
     /* 初始化动态数组-√ */
     dynamicArray stuArray;

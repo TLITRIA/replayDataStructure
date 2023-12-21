@@ -3,9 +3,9 @@
 #include <string.h>
 #include "myDynamicArray.h"
 
-
+/* 宏定义默认值 */
 #define DEFAULT_SIZE 10
-
+/* 枚举错误类型 */
 enum MY_STATUS_CODE 
 {
     ON_SUCCESS,
@@ -14,6 +14,7 @@ enum MY_STATUS_CODE
     INVALID_ACCESS,
 };
 
+/* 宏定义输出，后面用钩子函数自定义输出 */
 #define PRINT(a)\
 printf("%-5s : %d\n", #a, a);\
 
@@ -46,11 +47,11 @@ if (NULL != tmpPtr)\
 }\
 
 
-/* 扩容 */
+/* 静态扩容缩容--两种操作可以结合代码 */
 static int expandCapacity(dynamicArray *pArray);
 static int shrinkCapacity(dynamicArray *pArray);
 
-
+// 判断是否需要扩容缩容，可以合并
 /* 判断是否需要扩容？？可以放到上面吗 */
 #define IF_NEEDEXPAND(pArray)\
 if (pArray->length + (pArray->length >> 1) > pArray->capacity)\
