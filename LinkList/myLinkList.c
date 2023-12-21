@@ -221,7 +221,7 @@ int myLinkListGetPosAccordVal(LinkList * pList, \
 }
 
 /* 删除链表--指定数据删 */
-int myLinkListDelAppointVal(LinkList * pList, int val)
+int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val)
 {
     int pos = 0;
     int size = 0;
@@ -244,14 +244,18 @@ int myLinkListGetLength(LinkList * pList, int *size)
 }
 
 /* 获取链表--遍历链表元素 */
-int myLinkListForeach(LinkList * pList)
+int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
 {
     JUDGE_NULL(pList);
     // printf("遍历链表\n");
     LinkNode * travelNode = pList->head->next;
     while (travelNode != NULL)
     {
-        printf("data:%d\n", travelNode->data);
+#if 0
+        printf("data:%d\n", travelNode->data);  
+#else
+        printFunc(travelNode->data);
+#endif
         travelNode = travelNode->next;
     }
     

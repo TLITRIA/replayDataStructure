@@ -1,8 +1,11 @@
 #ifndef __MYLINKLIST_H_
 #define __MYLINKLIST_H_
 
+#if 0
 #define ELEMENTTYPE int
-
+#else
+#define ELEMENTTYPE void*
+#endif
 
 typedef struct LinkNode
 {
@@ -43,13 +46,17 @@ int myLinkListDelTail(LinkList * pList);
 int myLinkListDelAppointPos(LinkList * pList, int pos);
 
 /* 删除链表--指定数据删 */
-int myLinkListDelAppointVal(LinkList * pList, int val);
+int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val);
 
 /* 获取链表--长度 */
 int myLinkListGetLength(LinkList * pList, int *size);
 
 /* 获取链表--遍历链表元素 */
-int myLinkListForeach(LinkList * pList);
+int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE));
+/**指针函数与函数指针
+ * 指针函数：返回值是指针的函数
+ * 函数指针：指向函数的指针
+*/
 
 /* 销毁链表 */
 int myLinkListDestroy(LinkList * pList);

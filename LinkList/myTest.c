@@ -1,10 +1,18 @@
 #include <stdio.h>
 #include "myLinkList.h"
+#include <stdlib.h>
+#include <string.h>
 
 #define BUFFER_SIZE 3
 
 #define PRINT_INT(num)          \
 printf("%s:%d\n", #num, num);   \
+
+
+#define JUDGE_MALLOC(p)     \
+if (NULL == p)              \
+    printf("MALLOC_ERROR\n");  return -1;    \
+
 
 #define JUDGE_IFDESTROY(p)      \
 if (NULL == p)                  \
@@ -12,12 +20,34 @@ if (NULL == p)                  \
 else                            \
     printf("链表未销毁\n");      \
 
+
+typedef struct stuInfo
+{
+    int age;
+    char sex;
+} stuInfo; 
+
+/* 对stuInfo特化打印 */
+int printStuInfo(void *arg)
+{
+    stuInfo * info = (stuInfo*)arg;
+    printf("info->age:%d, info->sex:%c\n", info->age, info->sex);
+}
+
+
+
+
+
+
+
 int main()
 {
-#if 0
     //初始化
     LinkList *myList = NULL;
     myLinkListInit(&myList);
+
+#if 0
+    
     //插入数据
     ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};
     for (int idx = 0; idx < BUFFER_SIZE; idx++)
@@ -46,12 +76,6 @@ int main()
     myLinkListInsertTail(myList, 5);
     myLinkListInsertTail(myList, 5);
     myLinkListForeach(myList);
-    
-
-    /**插入数据中
-     * 
-      */
-
 
     /** 头删失效 
      * 参数错误，已解决 
@@ -74,10 +98,6 @@ int main()
     myLinkListDelAppointVal(myList, 2);
     myLinkListForeach(myList);
     
-
-
-
-
     /**删除链表出现错误，因为调用了head
      * 没能删掉链表，因为判断已销毁的条件是头结点为NULL
     */
@@ -87,6 +107,34 @@ int main()
 #endif 
 
 #if 1
+    stuInfo stu1, stu2, stu3;
+    memset(&stu1, 0, sizeof(stu1));
+    memset(&stu2, 0, sizeof(stu2));
+    memset(&stu3, 0, sizeof(stu3));
+
+    stu1.age = 20;
+    stu1.sex = 'f';
+    stu2.age = 21;
+    stu2.sex = 'f';
+    stu3.age = 22;
+    stu3.sex = 'm';
+    
+    stuInfo buffer[BUFFER_SIZE] = {stu1, stu2, stu3};
+
+    for (int idx = 0; idx < BUFFER_SIZE; idx++)
+    {
+        myLinkListInsertHead(myList, (void *)&buffer[idx]);
+    }
+
+    /* 获取链表的长度 */
+    int size = 0;
+    myLinkListGetLength(myList, &size);
+    printf("size:%d\n", size);
+
+    /* 遍历 */
+    myLinkListForeach(myList, printStuInfo);
+
+
 
 
 
