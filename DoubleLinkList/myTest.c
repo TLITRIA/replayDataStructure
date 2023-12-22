@@ -95,7 +95,7 @@ int main()
     myLinkListForeach(myList, printInt);
     
     printf("指定数据删\n");//√
-    myLinkListDelAppointVal(myList, 2);
+    // myLinkListDelAppointVal(myList, 2);
     myLinkListForeach(myList, printInt);
     
     /**删除链表出现错误，因为调用了head
