@@ -135,16 +135,20 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
     while (pos--)
     {
         travelNode = travelNode->next;
-        travelNode->next->prev = travelNode;
+        travelNode->next->prev = travelNode;/*3*/
     }
 
     /**4.
      * todo 头尾中
+     * 中间插入
+     * 尾插
+     * 空链表
+     * 
     */
-    newNode->next = travelNode->next; 
-    newNode->prev = travelNode;
+    newNode->next = travelNode->next; /*1*/
+    newNode->prev = travelNode;/*2*/
     
-    travelNode->next = newNode;      
+    travelNode->next = newNode;      /*4*/
 
     /* 5.更新链表长度、同步尾结点todo */
     (pList->len)++;
@@ -181,32 +185,34 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
         return INVALID_ACCESS;
     }
     int flag = 0;
-    if (pos == pList->len)
-    {
-        flag = 1;
-    }
-
     /* 2.封装遍历结点、待删除结点 */
     DoubleLinkNode * travelNode = pList->head;
     DoubleLinkNode * needDelNode = NULL;
 
-    /* 3.遍历到删除位置 */
-    while (--pos)
+    if (pos == pList->len)
     {
-        travelNode = travelNode->next;
+        flag = 1;
+    /*beifen 尾删 */
+        DoubleLinkNode * tmpNode = pList->tail;
+        pList->tail = pList->tail->prev;
+        needDelNode = tmpNode;
     }
-    /* 4.删除结点 */
-    needDelNode = travelNode->next;
-    travelNode->next = needDelNode->next;
-
-    /* 5.释放取出的结点空间 */
-    FREE(needDelNode);
-
-    /* 6.更新尾结点、链表长度 */
-    if (flag)
+    else
     {
-        pList->tail = travelNode;
+        /* 3.遍历到删除位置 */
+        while (--pos)
+        {
+            travelNode = travelNode->next;
+        }
+        /* 4.删除结点删除 */
+        needDelNode = travelNode->next;
+        travelNode->next = needDelNode->next;
+        needDelNode->next->prev = travelNode;
+        /* 5.释放取出的结点空间 */
+        FREE(needDelNode);
     }
+    /* 6.更新链表长度 */
+
     (pList->len)--;
 
     return ON_SUCCESS;
