@@ -58,6 +58,9 @@ int myDoubleLinkListForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE
  * 函数指针：指向函数的指针
 */
 
+int myDoubleLinkListReversePirnt(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE));
+
+
 /* 销毁链表 */
 int myDoubleLinkListDestroy(DoubleLinkList * pList);
 

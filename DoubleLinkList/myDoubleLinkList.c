@@ -196,6 +196,11 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
         DoubleLinkNode * tmpNode = pList->tail;
         pList->tail = pList->tail->prev;
         needDelNode = tmpNode;
+
+        /**??
+         * pList->tail = pList->tail->prev
+         * FREE(pList->tail->next)
+        */
     }
     else
     {
@@ -265,7 +270,7 @@ int myDoubleLinkListGetLength(DoubleLinkList * pList, int *size)
     return pList->len;
 }
 
-/* 获取链表--遍历链表元素 */
+/* 获取链表--遍历链表元素，双向链表可以逆序打印 */
 int myDoubleLinkListForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE))
 {
     JUDGE_NULL(pList);
@@ -284,6 +289,20 @@ int myDoubleLinkListForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE
     
     return ON_SUCCESS;
 }
+
+int myDoubleLinkListReversePirnt(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE))
+{
+    JUDGE_NULL(pList);
+    DoubleLinkNode * travelNode = pList->tail;
+    while (travelNode != pList->head)
+    // while (travelNode->prev != NULL)
+    {
+        printFunc(travelNode->data);
+        travelNode = travelNode->prev;
+    }
+    return ON_SUCCESS;
+}
+
 
 /* 销毁链表 */
 int myDoubleLinkListDestroy(DoubleLinkList * pList)
