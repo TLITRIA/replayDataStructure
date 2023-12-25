@@ -39,7 +39,7 @@ int main()
     /* 华润电力 */
 #endif
 
-    LinkList *list = NULL;
+    DoubleLinkList *list = NULL;
     /* 初始化链表 */
     LinkListInit(&list);
 

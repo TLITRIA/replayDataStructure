@@ -41,7 +41,7 @@ if (p != NULL)  \
 
 
 /* 根据值获取指定结点在链表的位置 */
-static int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE));
+static int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
 
 
@@ -189,9 +189,7 @@ int myLinkListDelAppointPos(LinkList * pList, int pos)
 }
 
 /* 根据值获取指定结点在链表的位置 */
-int myLinkListGetPosAccordVal(LinkList * pList, \
-                                    ELEMENTTYPE val, \
-                                    int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE))
+int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos)
 {
     /* 1.封装遍历结点 */
     int pos = 1;
@@ -199,26 +197,31 @@ int myLinkListGetPosAccordVal(LinkList * pList, \
     /* 2.寻找符合值的结点，返回pos */
     while (travelNode != NULL)
     {
-        /* todo */
+        if (travelNode->data == val)
+        {
+            /* 解引用 */
+            *pPos = pos;
+            return pos;
+        }
         travelNode = travelNode->next;
         pos++;
     }
     /* 3.找不到就返回错误信息 */
     /* 解引用用 */
-
+    pPos = NOT_FIND;
     return NOT_FIND;
 }
 
 /* 删除链表--指定数据删 */
 /* 如果链表存储的是地址则用钩子函数比较、删除 */
-int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE))
+int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val)
 {
     // pos存放地址或错误信息，size获取链表长度
     int pos = 0;
     int size = 0;
     while (myLinkListGetLength(pList, &size) >= 0 && pos != NOT_FIND)
     {
-        myLinkListGetPosAccordVal(pList, val, &pos, compareFunc);
+        myLinkListGetPosAccordVal(pList, val, &pos);
         myLinkListDelAppointPos(pList, pos);
     }
     return ON_SUCCESS;
