@@ -40,8 +40,6 @@ int dynamicArrayStackIsEmpty(dynamicArrayStack *pStack)
 int dynamicArrayStackGetSize(dynamicArrayStack *pStack, int *pSize)
 {
     return dynamicGetLength(pStack, pSize);
-
-
 }
 
 /* 栈的销毁 */

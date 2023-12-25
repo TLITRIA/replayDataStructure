@@ -1,10 +1,11 @@
 #include "doubleLinkListQueue.h"
-
-
+#include "doubleLinkList.h"
+#include "common.h"
 /* 队列初始化 */
 int doubleLinkListQueueInit(DoubleLinkListQueue *pQueue)
 {   
-    return myDoubleLinkListInit(pQueue);
+    myDoubleLinkListInit(&pQueue);/* ?? */
+    return 0; 
 }
 
 /* 队列入队 */
@@ -41,7 +42,7 @@ int doubleLinkListQueueGetSize(DoubleLinkListQueue *pQueue, int *pSize)
 int doubleLinkListQueueIsEmpty(DoubleLinkListQueue *pQueue)
 {
     int size = 0;
-    myDoubleLinkListGetLength(pQueue, size);
+    myDoubleLinkListGetLength(pQueue, &size);
     return size == 0 ? 1 : 0;
 }
 

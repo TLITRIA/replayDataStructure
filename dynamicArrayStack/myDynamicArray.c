@@ -121,7 +121,7 @@ int shrinkCapacity(dynamicArray *pArray)
     JUDGE_MALLOC(pArray);
 
     /* 2.数据拷贝到新内存 */
-    for (int idx = 0; idx < pArray->length; idx)
+    for (int idx = 0; idx < pArray->length; idx++)
     {
         pArray->data[idx] = tmpPtr[idx];
     }

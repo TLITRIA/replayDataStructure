@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "myDoubleLinkList.h"
+#include "doubleLinkList.h"
 
 // 状态码
 enum STATUS_CODE
@@ -43,7 +43,7 @@ if (p != NULL)  \
 /* 根据值获取指定结点在链表的位置 */
 static int myDoubleLinkListGetPosAccordVal(DoubleLinkList * pList, ELEMENTTYPE val, \
 int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE));
-static DoubleLinkList * createDoubleLinkNode(ELEMENTTYPE val);
+static DoubleLinkNode * createDoubleLinkNode(ELEMENTTYPE val);
 
 
 /* 链表初始化 */
@@ -86,10 +86,10 @@ int myDoubleLinkListInsertTail(DoubleLinkList * pList, ELEMENTTYPE val)
 
 
 /* 新建新结点封装成函数 */
-static DoubleLinkList * createDoubleLinkNode(ELEMENTTYPE val)
+static DoubleLinkNode * createDoubleLinkNode(ELEMENTTYPE val)
 {
     DoubleLinkNode * newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode) * 1);
-    JUDGE_MALLOC(newNode);
+    // JUDGE_MALLOC(newNode);todo
     memset(newNode, 0 ,sizeof(newNode));
     newNode->data = val;
     newNode->next = NULL;

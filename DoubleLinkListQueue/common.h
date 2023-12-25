@@ -8,6 +8,16 @@
 #define ELEMENTTYPE void*
 #endif
 
+// /* 枚举错误类型 */
+// enum MY_STATUS_CODE 
+// {
+//     PTR_ERROR = -3,
+//     MALLOC_ERROR,
+//     INVALID_ACCESS,
+//     ON_SUCCESS,
+// };
+
+
 typedef struct dynamicArray
 {
     ELEMENTTYPE * data;
@@ -32,5 +42,6 @@ typedef struct DoubleLinkList
 } DoubleLinkList;
 
 
+typedef DoubleLinkList DoubleLinkListQueue;
 
 #endif // _COMMON_H_

@@ -45,7 +45,7 @@ int myLinkListDelTail(LinkList * pList);
 int myLinkListDelAppointPos(LinkList * pList, int pos);
 
 /* 删除链表--指定数据删 */
-int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val);
+int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE));
 
 /* 获取链表--长度 */
 int myLinkListGetLength(LinkList * pList, int *size);

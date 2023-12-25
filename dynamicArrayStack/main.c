@@ -16,7 +16,7 @@ int main()
     int buffer[BUFFER_SIZE] = {5, 32, 7, 77, 23};
     for (int idx = 1; idx <= BUFFER_SIZE; idx++)
     {
-        dynamicArrayStackPush(&stack, buffer[idx]);
+        dynamicArrayStackPush(&stack, buffer[idx-1]);
     }
 
     int size = 0;
@@ -24,13 +24,14 @@ int main()
 
     printf("size:%d\n", size);
 
-    int *val = NULL;
-    while (dynamicArrayStackIsEmpty(&stack))
+    int val = 0;
+    while (!dynamicArrayStackIsEmpty(&stack))
     {
         /* todo considering */
-        dynamicArrayStackTop(&stack, (void **)&val);
-        printf("val:%d\n", *val);
-        dynamicArrayStackDestroy(&stack);
+        printf("2");
+        dynamicArrayStackTop(&stack, &val);
+        printf("val:%d\n", val);
+        dynamicArrayStackPop(&stack);
     }
 
     /* 栈的销毁 */
