@@ -1,29 +1,12 @@
 #ifndef __MYDYNAMICARRAY_H_
 #define __MYDYNAMICARRAY_H_
-// 防止重定义
 
-// 两种元素类型
-
-#if 1
-#define ELEMENTTYPE int
-#else
-#define ELEMENTTYPE void*
-#endif
-
-// 动态数组类型-数组、长度、容量
-
-typedef struct dynamicArray
-{
-    ELEMENTTYPE * data;
-    int length;
-    int capacity;
-} dynamicArray;
-
+#include "common.h"
 
 /* 初始化动态数组 */
 int dynamicInit(dynamicArray *pArray, int capcity);
 
-/* 插入动态数组--行末 */
+/* 插入动态数组--行末--尾插 */
 int dynamicInsertAppointData(dynamicArray *pArray, ELEMENTTYPE val);
 
 /* 插入动态数组--指定位置 */

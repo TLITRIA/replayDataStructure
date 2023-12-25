@@ -70,7 +70,7 @@ int dynamicInit(dynamicArray *pArray, int capcity)
     /*判空*/
     JUDGE_NULL(pArray);
     
-    if (capcity < 0)
+    if (capcity <= 0)
     {
         capcity = DEFAULT_SIZE;
     }
