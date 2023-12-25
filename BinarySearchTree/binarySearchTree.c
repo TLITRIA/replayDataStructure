@@ -13,6 +13,8 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
 
 /* 创建结点 */
 static BSTTreeNode * createBSTreeNewNode(ELEMENTTYPE val, BSTTreeNode * parentNode);
+/* 根据指定是值获取二叉搜索树的结点 */
+static BSTTreeNode * baseAppointValGetBSTreeNode(BinarySearchTree *pBstree, ELEMENTTYPE val);
 
 #define JUDGE_MALLOC(p)\
 if (NULL == p)\
@@ -23,14 +25,15 @@ static BSTTreeNode * createBSTreeNewNode(ELEMENTTYPE val, BSTTreeNode * parentNo
 {
     /* 分配根节点 */
     BSTTreeNode *newBstNode = (BSTTreeNode *)malloc(sizeof(BSTTreeNode) * 1);
-    JUDGE_MALLOC(newBstNode);
     memset(newBstNode, 0, sizeof(BSTTreeNode) * 1);
     {
-        newBstNode->data = val;/* 新结点赋值 */
+        newBstNode->data = 0;/* 新结点赋值 */
         newBstNode->left = NULL;
         newBstNode->right = NULL;
-        newBstNode->parent = parentNode;
+        newBstNode->parent = NULL;
     }
+    newBstNode->data = val;
+    newBstNode->parent = parentNode;
     return newBstNode;
 }
 
@@ -59,8 +62,9 @@ int binarySearchTreeInit(BinarySearchTree **pBstree)
         bstree->root->parent = NULL;
     }
 #endif
-/* ?? */
-    *pBstree = createBSTreeNewNode(0, NULL);
+    bstree->root = createBSTreeNewNode(0, NULL);
+    JUDGE_MALLOC(bstree->root);
+    *pBstree = bstree;
     return ON_SUCCESS;
 }
 
@@ -128,6 +132,7 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*com
 
     /* 分配根节点 */
     /* TODO */
+#if 0
     BSTTreeNode *newBstNode = (BSTTreeNode *)malloc(sizeof(BSTTreeNode) * 1);
     JUDGE_MALLOC(newBstNode);
     memset(newBstNode, 0, sizeof(BSTTreeNode) * 1);
@@ -137,7 +142,10 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*com
         newBstNode->right = NULL;
         newBstNode->parent = parentNode;
     }
-
+#else
+    BSTTreeNode *newBstNode = createBSTreeNewNode(val, parentNode);
+    JUDGE_MALLOC(newBstNode);
+#endif
 
     if (cmp < 0)
     {
@@ -177,4 +185,17 @@ int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree)
 
 }
 
+static BSTTreeNode * baseAppointValGetBSTreeNode(BinarySearchTree *pBstree, ELEMENTTYPE val)
+{
+    BSTTreeNode * travelNode = pBstree->root;
+    while (travelNode != NULL)
+    {
+        
+    }
+    
+}
+/*  */
+int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE val,int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+{
 
+}
