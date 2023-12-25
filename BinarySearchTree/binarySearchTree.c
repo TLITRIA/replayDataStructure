@@ -10,16 +10,14 @@ enum STATUS_CODE
 
 /* 静态函数前置声明 */
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
-
-/* 创建结点 */
+    /* 创建结点 */
 static BSTTreeNode * createBSTreeNewNode(ELEMENTTYPE val, BSTTreeNode * parentNode);
-/* 根据指定是值获取二叉搜索树的结点 */
+    /* 根据指定是值获取二叉搜索树的结点 */
 static BSTTreeNode * baseAppointValGetBSTreeNode(BinarySearchTree *pBstree, ELEMENTTYPE val);
 
-#define JUDGE_MALLOC(p)\
-if (NULL == p)\
-    return MALLOC_ERR;\
-
+#define JUDGE_MALLOC(p) \
+if (NULL == p)          \
+    return MALLOC_ERR;  \
 
 static BSTTreeNode * createBSTreeNewNode(ELEMENTTYPE val, BSTTreeNode * parentNode)
 {
@@ -38,23 +36,21 @@ static BSTTreeNode * createBSTreeNewNode(ELEMENTTYPE val, BSTTreeNode * parentNo
 }
 
 /* 二叉搜索树的初始化 */
-int binarySearchTreeInit(BinarySearchTree **pBstree)
+int binarySearchTreeInit(BinarySearchTree **pBstree, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
 {
-
     BinarySearchTree * bstree = (BinarySearchTree *)malloc(sizeof(BinarySearchTree) * 1);
     JUDGE_MALLOC(bstree);
     memset(bstree, 0, sizeof(BinarySearchTree) * 1);
     {
         bstree->root = NULL;
         bstree->size = 0;
+        bstree->compareFunc = compareFunc;
     }
-
 #if 0
     /* 分配根节点 */
     bstree->root = (BSTTreeNode *)malloc(sizeof(BSTTreeNode) * 1);
     JUDGE_MALLOC(bstree->root);
-    memset(bstree->root, 0, sizeof(BSTTreeNode) * 1);
-    
+    memset(bstree->root, 0, sizeof(BSTTreeNode) * 1); 
     {
         bstree->root->data = 0;
         bstree->root->left = NULL;
@@ -90,10 +86,8 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
 }
 #endif
 
-
-
 /* 二叉搜索树的插入 */
-int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
     if (pBstree->size == 0)
     {
@@ -105,14 +99,13 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*com
     BSTTreeNode *travelNode = pBstree->root;
     BSTTreeNode *parentNode = pBstree->root;
 
-    /* todo */
     /* 确定符号：放在左边还是右边 */
     int cmp = 0;
     while (travelNode != NULL)
     {
         parentNode = travelNode;
         // cmp = val - travelNode->data;
-        cmp = compareFunc(val, travelNode->data);
+        cmp = pBstree->compareFunc(val, travelNode->data);
         /* 插入元素 < 遍历到的结点 */
         if (cmp < 0)
         {
@@ -131,7 +124,6 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*com
     }
 
     /* 分配根节点 */
-    /* TODO */
 #if 0
     BSTTreeNode *newBstNode = (BSTTreeNode *)malloc(sizeof(BSTTreeNode) * 1);
     JUDGE_MALLOC(newBstNode);
@@ -155,7 +147,6 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val, int (*com
     {
         parentNode->right = newBstNode;
     }
-
     (pBstree->size)++;
     return ON_SUCCESS;
 }
@@ -187,15 +178,33 @@ int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree)
 
 static BSTTreeNode * baseAppointValGetBSTreeNode(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
+    int cmp = 0;
     BSTTreeNode * travelNode = pBstree->root;
     while (travelNode != NULL)
     {
-        
+        cmp = pBstree->compareFunc(val, travelNode->data);
+
+        if (cmp < 0)
+        {
+            travelNode = travelNode->left;
+        }
+        else if (cmp > 0)
+        {
+            travelNode = travelNode->right;
+        }
+        else
+        {
+            /* 找到 */
+            return travelNode;
+        }
+
+
     }
+    return NULL;
     
 }
 /*  */
-int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE val,int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2))
+int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
-
+    baseAppointValGetBSTreeNode(pBstree, val);
 }
