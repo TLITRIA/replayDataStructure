@@ -4,6 +4,7 @@
 
 
 
+
 /* 枚举错误类型 */
 enum MY_STATUS_CODE 
 {
@@ -38,30 +39,5 @@ if (NULL != tmpPtr)\
 
 
 
-typedef struct dynamicArray
-{
-    ELEMENTTYPE * data;
-    int length;
-    int capacity;
-} dynamicArray;
-
-
-typedef struct DoubleLinkNode
-{
-    ELEMENTTYPE data;
-    struct DoubleLinkNode *next;
-    struct DoubleLinkNode *prev;
-} DoubleLinkNode;
-
-
-typedef struct DoubleLinkList
-{
-    DoubleLinkNode *head;
-    DoubleLinkNode *tail;
-    int len;
-} DoubleLinkList;
-
-
-typedef DoubleLinkList DoubleLinkListQueue;
-
+typedef DoubleLinkList DoubleLinkListQueue;/* todo */
 #endif // _COMMON_H_

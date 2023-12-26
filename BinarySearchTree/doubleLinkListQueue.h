@@ -1,7 +1,11 @@
 #ifndef _DOUBLE_LINK_LIST_QUEUE_
 #define _DOUBLE_LINK_LIST_QUEUE_
 
-#include "common.h"
+#if 1
+#define ELEMENTTYPE int
+#else
+#define ELEMENTTYPE void*
+#endif
 
 
 

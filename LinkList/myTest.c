@@ -59,7 +59,7 @@ int main()
     LinkList *myList = NULL;
     
 
-#if 0
+#if 1
     myLinkListInit(&myList, compareFuncInt, printFuncInt);
     //插入数据
     ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};

@@ -44,6 +44,7 @@ if (p != NULL)  \
 static int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
+
 static int printFunc(ELEMENTTYPE val);
 
 /* 链表初始化 */

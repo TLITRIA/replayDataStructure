@@ -1,7 +1,7 @@
 #ifndef __MYLINKLIST_H_
 #define __MYLINKLIST_H_
 
-#if 0
+#if 1
 #define ELEMENTTYPE int
 #else
 #define ELEMENTTYPE void*
@@ -21,7 +21,6 @@ typedef struct LinkList
     int len;
     int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
     int (*printFunc)(ELEMENTTYPE val);
-    
 } LinkList;
 
 

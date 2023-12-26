@@ -2,8 +2,9 @@
 #define __DYNAMIC_ARRAY_STACK_H_
 
 #include "./myDynamicArray.h"
-
 #include "common.h"
+
+/* 取别名 */
 typedef dynamicArray dynamicArrayStack;
 
 
