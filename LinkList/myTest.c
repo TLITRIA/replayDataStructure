@@ -27,14 +27,9 @@ typedef struct stuInfo
     char sex;
 } stuInfo; 
 
-/* 对stuInfo特化打印 */
-int printStuInfo(void *arg)
-{
-    stuInfo * info = (stuInfo*)arg;
-    printf("info->age:%d, info->sex:%c\n", info->age, info->sex);
-}
 
-int printInt(int arg)
+
+int printFuncInt(int arg)
 {
     int data = arg;
     printf("info:%d\n", data);
@@ -44,19 +39,28 @@ int compareFuncInt(int arg1, int arg2)
 {
     return (arg1 == arg2) ? 1 : 0;
 }
-int compareFuncstuInfo(stuInfo *arg1, stuInfo *arg2)
+/* 对stuInfo特化打印 */
+int printFuncStuInfo(void *arg)
+{
+    stuInfo * info = (stuInfo*)arg;
+    printf("info->age:%d, info->sex:%c\n", info->age, info->sex);
+}
+
+int compareFuncStuInfo(void *arg1, void *arg2)
 {/* 相同则返回1 */
-    return (arg1->age == arg1->age && arg1->sex == arg2->sex) ? 1 : 0;
+    stuInfo *info1 = (void *)arg1;
+    stuInfo *info2 = (void *)arg2;
+    return (info1->age == info2->age && info1->sex == info2->sex) ? 1 : 0;
 }
 
 int main()
 {
     //初始化
     LinkList *myList = NULL;
-    myLinkListInit(&myList, compareFuncInt, printInt);
-
-#if 1
     
+
+#if 0
+    myLinkListInit(&myList, compareFuncInt, printFuncInt);
     //插入数据
     ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};
     for (int idx = 0; idx < BUFFER_SIZE; idx++)
@@ -117,7 +121,8 @@ int main()
 
 
 #else 
-    stuInfo stu1, stu2, stu3;
+    myLinkListInit(&myList, compareFuncStuInfo, printFuncStuInfo);
+    stuInfo stu1, stu2, stu3, stu4;
     memset(&stu1, 0, sizeof(stu1));
     memset(&stu2, 0, sizeof(stu2));
     memset(&stu3, 0, sizeof(stu3));
@@ -128,6 +133,8 @@ int main()
     stu2.sex = 'f';
     stu3.age = 22;
     stu3.sex = 'm';
+    stu4.age = 21;
+    stu4.sex = 'f';
     
     stuInfo buffer[BUFFER_SIZE] = {stu1, stu2, stu3};
 
@@ -142,7 +149,45 @@ int main()
     printf("size:%d\n", size);
 
     /* 遍历 */
-    myLinkListForeach(myList, printStuInfo);
+    myLinkListForeach(myList);
+
+
+    printf("头插3个STU4\n");//
+    myLinkListInsertHead(myList, (void *)&stu4);
+    myLinkListInsertHead(myList, (void *)&stu4);
+    myLinkListInsertHead(myList, (void *)&stu4);
+    myLinkListForeach(myList);
+
+    printf("尾插3个SU4\n");//
+    myLinkListInsertTail(myList, (void *)&stu4);
+    myLinkListInsertTail(myList, (void *)&stu4);
+    myLinkListInsertTail(myList, (void *)&stu4);
+    myLinkListForeach(myList);
+
+    printf("头删2个\n");//
+    myLinkListDelHead(myList);
+    myLinkListDelHead(myList);
+    myLinkListForeach(myList);
+    
+    printf("尾删2个\n");//
+    myLinkListDelTail(myList);
+    myLinkListDelTail(myList);
+    myLinkListForeach(myList);
+    
+    printf("指定位置【位置为2】删\n");//
+    myLinkListDelAppointPos(myList, 2);
+    myLinkListForeach(myList);
+    
+    printf("指定数据删【stu4=stu2】\n");//
+    int pos;
+    myLinkListDelAppointVal(myList, (void *)&stu4);
+    myLinkListForeach(myList);
+
+    /* 删除链表 */
+    myLinkListDestroy(myList);
+
+    JUDGE_IFDESTROY(myList->head);
+
 #endif
 
     return 0;

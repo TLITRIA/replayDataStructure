@@ -1,7 +1,7 @@
 #ifndef __MYLINKLIST_H_
 #define __MYLINKLIST_H_
 
-#if 1
+#if 0
 #define ELEMENTTYPE int
 #else
 #define ELEMENTTYPE void*
