@@ -43,10 +43,13 @@ if (p != NULL)  \
 /* 根据值获取指定结点在链表的位置 */
 static int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos);
 
-
+static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
+static int printFunc(ELEMENTTYPE val);
 
 /* 链表初始化 */
-int myLinkListInit(LinkList ** pList)
+int myLinkListInit(LinkList ** pList, 
+int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
+int (*printFunc)(ELEMENTTYPE val))
 {
     /* 1.初始化新链表 */
     LinkList * newList = (LinkList *)malloc(sizeof(LinkList) * 1);
@@ -63,6 +66,9 @@ int myLinkListInit(LinkList ** pList)
     // 头结点
     newList->head->data = 0;
     newList->head->next = NULL;
+    // 钩子函数
+    newList->compareFunc = compareFunc;
+    newList->printFunc = printFunc;
     /* 4.赋值 */
     *pList = newList;
 
@@ -197,7 +203,7 @@ int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos)
     /* 2.寻找符合值的结点，返回pos */
     while (travelNode != NULL)
     {
-        if (travelNode->data == val)
+        if (pList->compareFunc(val, travelNode->data))
         {
             /* 解引用 */
             *pPos = pos;
@@ -207,8 +213,8 @@ int myLinkListGetPosAccordVal(LinkList * pList, ELEMENTTYPE val, int *pPos)
         pos++;
     }
     /* 3.找不到就返回错误信息 */
-    /* 解引用用 */
-    pPos = NOT_FIND;
+    /* 解引用 */
+    *pPos = NOT_FIND;
     return NOT_FIND;
 }
 
@@ -239,7 +245,7 @@ int myLinkListGetLength(LinkList * pList, int *size)
 }
 
 /* 获取链表--遍历链表元素 */
-int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
+int myLinkListForeach(LinkList * pList)
 {
     JUDGE_NULL(pList);
     LinkNode * travelNode = pList->head->next;
@@ -250,7 +256,7 @@ int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE))
         printf("data:%d\n", travelNode->data);  
 #else
         printf("pos:%d\t", pos++);
-        printFunc(travelNode->data);// 钩子函数实现自定义输出
+        pList->printFunc(travelNode->data);// 钩子函数实现自定义输出
 #endif
         travelNode = travelNode->next;
     }

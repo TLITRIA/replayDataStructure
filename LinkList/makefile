@@ -1,5 +1,5 @@
 test02:myTest.o myLinkList.o
-	gcc myTest.o myLinkList.o -o test02
+	gcc -g myTest.o myLinkList.o -o test02
 
 myTest.o:myTest.c
 	gcc -c myTest.c -o myTest.o

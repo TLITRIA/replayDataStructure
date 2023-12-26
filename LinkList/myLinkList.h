@@ -19,12 +19,17 @@ typedef struct LinkList
     LinkNode *head;
     LinkNode *tail;
     int len;
+    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
+    int (*printFunc)(ELEMENTTYPE val);
+    
 } LinkList;
 
 
 
 /* 链表初始化 */
-int myLinkListInit(LinkList ** pList);
+int myLinkListInit(LinkList ** pList, 
+int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
+int (*printFunc)(ELEMENTTYPE val));
 
 /* 插入链表--头插 */
 int myLinkListInsertHead(LinkList * pList, ELEMENTTYPE val);
@@ -45,13 +50,13 @@ int myLinkListDelTail(LinkList * pList);
 int myLinkListDelAppointPos(LinkList * pList, int pos);
 
 /* 删除链表--指定数据删 */
-int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE));
+int myLinkListDelAppointVal(LinkList * pList, ELEMENTTYPE val);
 
 /* 获取链表--长度 */
 int myLinkListGetLength(LinkList * pList, int *size);
 
 /* 获取链表--遍历链表元素 */
-int myLinkListForeach(LinkList * pList, int (*printFunc)(ELEMENTTYPE));
+int myLinkListForeach(LinkList * pList);
 /**指针函数与函数指针
  * 指针函数：返回值是指针的函数
  * 函数指针：指向函数的指针

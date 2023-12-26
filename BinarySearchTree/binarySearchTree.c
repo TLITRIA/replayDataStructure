@@ -105,7 +105,11 @@ static BSTreeNode * bstreeNodeSuccessor(BSTreeNode *node)
 
 
 /* 二叉搜索树的初始化 */
-int binarySearchTreeInit(BinarySearchTree **pBstree, int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), int printFunc(ELEMENTTYPE val))
+int binarySearchTreeInit(
+    BinarySearchTree **pBstree, 
+    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), 
+    int printFunc(ELEMENTTYPE val)
+)
 {
     BinarySearchTree * bstree = (BinarySearchTree *)malloc(sizeof(BinarySearchTree) * 1);
     JUDGE_MALLOC(bstree);

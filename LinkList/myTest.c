@@ -40,11 +40,20 @@ int printInt(int arg)
     printf("info:%d\n", data);
 }
 
+int compareFuncInt(int arg1, int arg2)
+{
+    return (arg1 == arg2) ? 1 : 0;
+}
+int compareFuncstuInfo(stuInfo *arg1, stuInfo *arg2)
+{/* 相同则返回1 */
+    return (arg1->age == arg1->age && arg1->sex == arg2->sex) ? 1 : 0;
+}
+
 int main()
 {
     //初始化
     LinkList *myList = NULL;
-    myLinkListInit(&myList);
+    myLinkListInit(&myList, compareFuncInt, printInt);
 
 #if 1
     
@@ -61,43 +70,43 @@ int main()
     myLinkListGetLength(myList, &size);
     PRINT_INT(size);
     //遍历链表
-    myLinkListForeach(myList, printInt);
+    myLinkListForeach(myList);
 
 
     // 插入删除数据
-    printf("头插\n");//√
+    printf("头插3个2\n");//√
     myLinkListInsertHead(myList, 2);
     myLinkListInsertHead(myList, 2);
     myLinkListInsertHead(myList, 2);
-    myLinkListForeach(myList, printInt);
+    myLinkListForeach(myList);
 
-    printf("尾插\n");//√
+    printf("尾插3个5\n");//√
     myLinkListInsertTail(myList, 5);
     myLinkListInsertTail(myList, 5);
     myLinkListInsertTail(myList, 5);
-    myLinkListForeach(myList, printInt);
+    myLinkListForeach(myList);
 
     /** 头删失效 
      * 参数错误，已解决 
      * */
-    printf("头删\n");//√
+    printf("头删2个\n");//√
     myLinkListDelHead(myList);
     myLinkListDelHead(myList);
-    myLinkListForeach(myList, printInt);
+    myLinkListForeach(myList);
     
-    printf("尾删\n");//√
+    printf("尾删2个\n");//√
     myLinkListDelTail(myList);
     myLinkListDelTail(myList);
-    myLinkListForeach(myList, printInt);
+    myLinkListForeach(myList);
     
-    printf("指定位置删\n");//头、尾、中？
+    printf("指定位置【位置为2】删\n");//√
     myLinkListDelAppointPos(myList, 2);
-    myLinkListForeach(myList, printInt);
+    myLinkListForeach(myList);
     
-    printf("指定数据删\n");//√
+    printf("指定数据删【值为2】\n");//√
     int pos;
-    myLinkListDelAppointVal(myList, 2, &pos);
-    myLinkListForeach(myList, printInt);
+    myLinkListDelAppointVal(myList, 2);
+    myLinkListForeach(myList);
     
     /**删除链表出现错误，因为调用了head
      * 没能删掉链表，因为判断已销毁的条件是头结点为NULL

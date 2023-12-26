@@ -10,12 +10,13 @@ typedef struct stuInfo
     int age;
     char sex;
 } stuInfo; 
-
+/* 测试 */
 
 /* 自定义打印 */
 int printStruct(void *arg)
 {
     stuInfo *info = (stuInfo*)arg;
+    printf("age:%d\t, sex:%c\n", info->age, info->sex);
     printf("age:%d\t, sex:%c\n", info->age, info->sex);
 }
 
