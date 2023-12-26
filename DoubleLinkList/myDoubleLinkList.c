@@ -120,11 +120,6 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
         flag = 1;
         travelNode = pList->tail;
     }
-    else if (pos == 0)
-    {
-        flag = 2;
-        travelNode = pList->head;
-    }
     else
     {
         while (pos)
@@ -132,7 +127,7 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
             travelNode = travelNode->next;
             pos--;
         }
-        travelNode->next->prev = travelNode;/*3*/
+        travelNode->next->prev = newNode;/*todo3*/
     }
     /* 4.插入 */
     newNode->next = travelNode->next;       /*1*/
@@ -144,10 +139,7 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
     {
         pList->tail = newNode;
     }
-    else if (flag == 2)
-    {
-        pList->head->next = newNode;
-    }
+    
     
 #endif
     return ON_SUCCESS;
