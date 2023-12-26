@@ -37,7 +37,4 @@ if (NULL != tmpPtr)\
 
 
 
-
-
-typedef DoubleLinkList DoubleLinkListQueue;/* todo */
 #endif // _COMMON_H_

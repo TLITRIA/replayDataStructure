@@ -3,6 +3,8 @@
 #include "binarySearchTree.h"
 
 
+#define DEFAULT_SIZE 10
+
 typedef struct stuInfo
 {
     int age;
@@ -42,13 +44,21 @@ int compareFuncStuInfo(void *arg1, void *arg2)
 
 int main()
 {
-    BinarySearchTree **tree = NULL;
-    binarySearchTreeInit(tree, compareFuncStuInfo, printFuncStuInfo);
-
+    BinarySearchTree *tree = NULL;
+    binarySearchTreeInit(&tree, compareFuncInt, printFuncInt);
+    /* 插入 */
+    int buffer[DEFAULT_SIZE] = {7, 4, 5, 6, 1, 8, 9};
+    
+    for (int idx = 0; idx < 7; idx++)
+    {
+        binarySearchTreeInsert(tree, buffer[idx]);
+    }
     
 
+    printf("root.data:%d\n", tree->root->data);
 
-
+    /* 层序遍历 */
+    binarySearchTreeLevelOrderTravel(tree);
 
 
 

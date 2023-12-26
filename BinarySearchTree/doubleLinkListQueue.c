@@ -2,9 +2,9 @@
 #include "doubleLinkList.h"
 #include "common.h"
 /* 队列初始化 */
-int doubleLinkListQueueInit(DoubleLinkListQueue *pQueue)
+int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue)
 {   
-    myDoubleLinkListInit(&pQueue);/* ?? */
+    myDoubleLinkListInit(pQueue);/* ?? */
     return 0; 
 }
 

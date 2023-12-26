@@ -2,6 +2,8 @@
 #include "doubleLinkListQueue.h"
 #include "common.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 
 
@@ -242,25 +244,22 @@ int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree)
     BSTreeNode * nodeVal = NULL;
     // BSTreeNode * queueNode = pBstree->root;
     DoubleLinkListQueue * pQueue = NULL;
-    doubleLinkListQueueInit(pBstree->root);
-    doubleLinkListQueuePush(pQueue, pBstree->root);
+    doubleLinkListQueueInit(&pQueue);/* BUG */
+    doubleLinkListQueuePush(pQueue, pBstree->root->data);
     while (!doubleLinkListQueueIsEmpty(pQueue))
     {
-        doubleLinkListQueueTop(pQueue, (void **)&nodeVal);
-        #if 0
-        printf("data%d\n", nodeVal->data);
-        #else
+        doubleLinkListQueueTop(pQueue, (ELEMENTTYPE *)&nodeVal);
+        // printf("data%d\n", nodeVal->data);
         pBstree->printFunc(nodeVal->data);
-        #endif
         doubleLinkListQueuePop(pQueue);
         /* 左右子树入队 */
         if (nodeVal->left != NULL)
         {
-            doubleLinkListQueuePush(pQueue, nodeVal->left);
+            doubleLinkListQueuePush(pQueue, nodeVal->left->data);
         }
         if (nodeVal->right != NULL)
         {
-            doubleLinkListQueuePush(pQueue, nodeVal->right);
+            doubleLinkListQueuePush(pQueue, nodeVal->right->data);
         }
     }
     FREE(nodeVal);
