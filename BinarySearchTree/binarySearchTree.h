@@ -27,7 +27,7 @@ typedef struct BinarySearchTree
     /* 钩子函数 包装器实现自定义打印函数接口 */
     int (*printFunc)(ELEMENTTYPE val);
     /* 优化todo 把队列的属性放入队列 */
-    DoubleLinkListQueue *pQueue;
+    // DoubleLinkListQueue *pQueue;
 } BinarySearchTree;
 
 
@@ -60,4 +60,6 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight);
 /* 二叉搜索树的销毁 */
 int binarySearchTreeDelete(BinarySearchTree *pBstree, ELEMENTTYPE val);
 
+/* 二叉搜索树的销毁 */
+int binarySearchTreeDestory(BinarySearchTree *pBstree);
 #endif //_BINARY_SEARCH_TREE_H_

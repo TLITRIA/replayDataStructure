@@ -77,7 +77,7 @@ int binarySearchTreeInit(
         bstree->size = 0;
         bstree->compareFunc = compareFunc;
         bstree->printFunc = printFunc;
-        doubleLinkListQueueInit(&(bstree->pQueue));
+        // doubleLinkListQueueInit(&(bstree->pQueue));
     }
 #if 0
     /* 分配根节点 */
@@ -386,12 +386,127 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
     return ON_SUCCESS;
 }
 
-/* 二叉搜索树的销毁 */
+/* 删除指定位置的结点 */
+static int binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *node)
+{
+    JUDGE_IFNULL(pBstree);
+    JUDGE_IFNULL(node);
+    if (binarySearchTreeNodeHasTwoChildens(node))   /* 度为2 */
+    {
+        BSTreeNode *preNode = bstreeNodePreDecessor(node);
+        node->data = preNode->data;
+#if 0
+        binarySearchTreeDeleteNode(pBstree, preNode);
+        return ON_SUCCESS;
+#else
+        node = preNode;
+#endif
+    }
+    
+    
+    #if 0
+    if (binarySearchTreeNodeHasOneChilden(node))
+    {
+        if (parentNode->left->data == node->data)
+        {
+            if (node->left != NULL)
+            {
+                node->left->parent = parentNode;
+                FREE(parentNode->left);
+                parentNode->left = node->left;
+            }
+            else
+            {
+                node->left->parent = parentNode;
+                FREE(parentNode->left);
+                parentNode->left = node->left;
+            }    
+        }
+        else
+        {
+            if (node->left != NULL)
+            {
+                node->left->parent = parentNode;
+                FREE(parentNode->left);
+                parentNode->left = node->left;
+            }
+            else
+            {
+                node->left->parent = parentNode;
+                FREE(parentNode->left);
+                parentNode->left = node->left;
+            }
+        }
+        
+        return ON_SUCCESS;
+    }
+    if (binarySearchTreeNodeIsLeaf(node))
+    {
+        return ON_SUCCESS;
+    }
+    #endif
+    BSTreeNode *parentNode = node->parent;
+    BSTreeNode *childNode = (node->left != NULL) ? node->left : node->right;
+    BSTreeNode *delNode = NULL;
+    if (childNode != NULL) /* 度为1 */
+    {
+        if (parentNode == NULL)/* 根节点 */
+        {
+            pBstree->root = childNode;
+        }
+        else
+        {
+            // if (parentNode->left->data == node->data)
+            if (parentNode->left == node)
+            {
+                parentNode->left = childNode;
+            }
+            else
+            {
+                parentNode->right = childNode;
+            }
+            childNode->parent = parentNode;
+        }
+        delNode = node;
+    }
+    else                    /* 度为0 */
+    {/* 可以直接删吗 */
+        if (parentNode == NULL)
+        {
+            delNode = node;
+        }
+        else
+        {
+            if (parentNode->left != NULL)
+            {
+                delNode = parentNode->left;
+            }
+            else
+            {
+                delNode = parentNode->right;
+            }
+        }
+    }
+    FREE(delNode);
+    return ON_SUCCESS;
+}
+
+/* 二叉搜索树的删除 */
 int binarySearchTreeDelete(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
-    
+    binarySearchTreeDeleteNode(pBstree, baseAppointValGetBSTreeNode(pBstree, val));
+    return ON_SUCCESS;
+}
+
+/* 二叉搜索树的销毁 */
+int binarySearchTreeDestory(BinarySearchTree *pBstree)
+{
     BSTreeNode *travelNode = NULL;
-    doubleLinkListQueueDestroy(pBstree->pQueue);
+    DoubleLinkListQueue *pQueue;
+    doubleLinkListQueueInit(pQueue);
+
+    #if 0
+doubleLinkListQueueDestroy(pBstree->pQueue);
     doubleLinkListQueueInit(pBstree->pQueue);
     doubleLinkListQueuePush(pBstree->pQueue, pBstree->root);
     while (!doubleLinkListQueueIsEmpty(pBstree->pQueue))
@@ -412,5 +527,28 @@ int binarySearchTreeDelete(BinarySearchTree *pBstree, ELEMENTTYPE val)
     }
     /* 释放队列 */
     doubleLinkListQueueDestroy(pBstree->pQueue);
+    #else
+doubleLinkListQueueDestroy(pQueue);
+    doubleLinkListQueueInit(pQueue);
+    doubleLinkListQueuePush(pQueue, pBstree->root);
+    while (!doubleLinkListQueueIsEmpty(pQueue))
+    {
+        doubleLinkListQueuePush(pQueue, (void **)&travelNode);
+        doubleLinkListQueuePop(pQueue);
+
+        if (travelNode->left != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->left);
+        }
+        if (travelNode->right != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->right);
+        }
+        /* 最后销毁 */
+        FREE(travelNode);
+    }
+    /* 释放队列 */
+    doubleLinkListQueueDestroy(pQueue);
+    #endif
     return ON_SUCCESS;
 }

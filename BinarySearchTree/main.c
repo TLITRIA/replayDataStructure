@@ -26,16 +26,16 @@ int compareFuncInt(int arg1, int arg2)
     return (arg1 == arg2) ? 1 : 0;
 }
 /*  */
-int printFuncStuInfo(void *arg)
+int printFuncBSTreeNode(void *arg)
 {
-    stuInfo *info = (stuInfo *)arg;
-    printf("age:%d\tsex:%c\n", info->age, info->sex);
+    BSTreeNode *info = (BSTreeNode *)arg;
+    printf("data:\n", info->data);/* todo */
 }
-int compareFuncStuInfo(void *arg1, void *arg2)
+int compareFuncBSTreeNode(void *arg1, void *arg2)
 {
-    stuInfo *info1 = (stuInfo *)arg1;
-    stuInfo *info2 = (stuInfo *)arg2;
-    return (info1->age == info2->age && info1->sex == info2->sex) ? 1 : 0;
+    BSTreeNode *info1 = (BSTreeNode *)arg1;
+    BSTreeNode *info2 = (BSTreeNode *)arg2;
+    return (info1->data == info2->data) ? 1 : 0;
 }
 
 
@@ -45,7 +45,7 @@ int compareFuncStuInfo(void *arg1, void *arg2)
 int main()
 {
     BinarySearchTree *tree = NULL;
-    binarySearchTreeInit(&tree, compareFuncInt, printFuncInt);
+    binarySearchTreeInit(&tree, compareFuncBSTreeNode, printFuncBSTreeNode);
     /* 插入 */
     int buffer[DEFAULT_SIZE] = {7, 4, 5, 6, 1, 8, 9};
     
