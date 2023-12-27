@@ -97,10 +97,12 @@ int binarySearchTreeInit(
     JUDGE_MALLOC(bstree);
     memset(bstree, 0, sizeof(BinarySearchTree) * 1);
     {
-        bstree->root = NULL;
+        bstree->root = createBSTreeNewNode(0, NULL);
+        JUDGE_IFNULL(bstree->root);
         bstree->size = 0;
         bstree->compareFunc = compareFunc;
         bstree->printFunc = printFunc;
+        doubleLinkListQueueInit(&(bstree->pQueue));
     }
 #if 0
     /* 分配根节点 */
@@ -114,8 +116,9 @@ int binarySearchTreeInit(
         bstree->root->parent = NULL;
     }
 #endif
-    bstree->root = createBSTreeNewNode(0, NULL);
-    JUDGE_IFNULL(bstree->root);
+
+    
+
     *pBstree = bstree;
     return ON_SUCCESS;
 }
@@ -340,17 +343,40 @@ int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
             height++;
             doubleLinkListQueueGetSize(pQueue, &levelSize);
         }
-        
     }
     
     *pHeight = height;
     /* 释放队列空间 */
+#if 1
     doubleLinkListQueueDestroy(pQueue);
+#else
+    pBstree->pQueue(pQueue);
+#endif
     return ON_SUCCESS;
 }
 
-/* 二叉搜索树的删除 */
+/* 二叉搜索树的销毁 */
 int binarySearchTreeDelete(BinarySearchTree *pBstree, ELEMENTTYPE val)
 {
+    
+    BSTreeNode *travelNode = NULL;
+    while (!doubleLinkListQueueIsEmpty(pBstree->pQueue))
+    {
+        doubleLinkListQueuePush(pBstree->pQueue, (void **)&travelNode);
+        doubleLinkListQueuePop(pBstree->pQueue);
+
+        if (travelNode->left != NULL)
+        {
+            doubleLinkListQueuePush(pBstree->pQueue, travelNode->left);
+        }
+        if (travelNode->right != NULL)
+        {
+            doubleLinkListQueuePush(pBstree->pQueue, travelNode->right);
+        }
+        /* 最后销毁 */
+        FREE(travelNode);
+    }
+    /* 释放队列 */
+    doubleLinkListQueueDestroy(pBstree->pQueue);
     return ON_SUCCESS;
 }
