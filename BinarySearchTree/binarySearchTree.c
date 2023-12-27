@@ -241,29 +241,28 @@ int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree)
 /* 二叉搜索树的层序遍历 */
 int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree)
 {
-    BSTreeNode * nodeVal = NULL;
+    BSTreeNode *nodeVal = NULL;
     // BSTreeNode * queueNode = pBstree->root;
     DoubleLinkListQueue * pQueue = NULL;
     doubleLinkListQueueInit(&pQueue);/* BUG */
-    doubleLinkListQueuePush(pQueue, pBstree->root->data);
+    doubleLinkListQueuePush(pQueue, pBstree->root);
     while (!doubleLinkListQueueIsEmpty(pQueue))
     {
-        doubleLinkListQueueTop(pQueue, (ELEMENTTYPE *)&nodeVal);
+        doubleLinkListQueueTop(pQueue, (void **)&nodeVal);/* todo */
         // printf("data%d\n", nodeVal->data);
         pBstree->printFunc(nodeVal->data);
         doubleLinkListQueuePop(pQueue);
         /* 左右子树入队 */
         if (nodeVal->left != NULL)
         {
-            doubleLinkListQueuePush(pQueue, nodeVal->left->data);
+            doubleLinkListQueuePush(pQueue, nodeVal->left);
         }
         if (nodeVal->right != NULL)
         {
-            doubleLinkListQueuePush(pQueue, nodeVal->right->data);
+            doubleLinkListQueuePush(pQueue, nodeVal->right);
         }
     }
-    FREE(nodeVal);
-    FREE(pQueue);
+    doubleLinkListQueueDestroy(pQueue);
     return ON_SUCCESS;
 }
 
@@ -299,8 +298,54 @@ int binarySearchTreeIsContainAppointVal(BinarySearchTree *pBstree, ELEMENTTYPE v
 }
 
 /* 获取二叉搜索树的高度 */
-int binarySearchTreeGetHeight(BinarySearchTree *pBstree)
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight)
 {
+    /* 判空 */
+    JUDGE_IFNULL(pBstree);
+    /* 判空树 */
+    if (pBstree->size == 0)
+    {
+        return 0;
+    }
+    
+    BSTreeNode *travelNode = NULL;
+    DoubleLinkListQueue * pQueue = NULL;
+    doubleLinkListQueueInit(&pQueue);
+
+    /* 根节点入队，高度为1 */
+    doubleLinkListQueuePush(pQueue, pBstree->root);
+    int height = 0;          /* 树的高度 */
+    int levelSize = 1;      /* 树每一层的结点数量 */
+    while (!doubleLinkListQueueIsEmpty(pQueue))
+    {
+        doubleLinkListQueueTop(pQueue,  (void **)&travelNode);
+        doubleLinkListQueuePop(pQueue);
+        levelSize--;
+
+        /* 左子树 */
+        if (travelNode->left != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->left);
+        }
+
+        /* 右子树 */
+        if (travelNode->right != NULL)
+        {
+            doubleLinkListQueuePush(pQueue, travelNode->right);
+        }
+
+        /* 树的当前层结点遍历结束 */
+        if (levelSize == 0)
+        {
+            height++;
+            doubleLinkListQueueGetSize(pQueue, &levelSize);
+        }
+        
+    }
+    
+    *pHeight = height;
+    /* 释放队列空间 */
+    doubleLinkListQueueDestroy(pQueue);
     return ON_SUCCESS;
 }
 

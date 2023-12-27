@@ -330,8 +330,12 @@ int myDoubleLinkListGetHeadVal(DoubleLinkList *pList, ELEMENTTYPE *pVal)
     myDoubleLinkListGetPosVal(pList, 0, pVal);
 #else
     JUDGE_NULL(pList);
-    JUDGE_NULL(pVal);
-    *pVal = pList->head->next->data;
+    if (pVal)
+    {
+        *pVal = pList->head->next->data;
+    }
+    
+    
     return ON_SUCCESS;
 #endif
 

@@ -2,7 +2,7 @@
 #define _BINARY_SEARCH_TREE_H_
 
 
-#if 1
+#if 0
 #define ELEMENTTYPE int
 #else
 #define ELEMENTTYPE void*
@@ -53,7 +53,7 @@ int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree);
 int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree);
 
 /* 获取二叉搜索树的高度 */
-int binarySearchTreeGetHeight(BinarySearchTree *pBstree);
+int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight);
 
 /* 二叉搜索树的删除 */
 int binarySearchTreeDelete(BinarySearchTree *pBstree, ELEMENTTYPE val);
