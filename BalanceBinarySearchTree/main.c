@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "binarySearchTree.h"
+#include "balanceBinarySearchTree.h"
 
 
 #define DEFAULT_SIZE 10
@@ -43,8 +43,8 @@ int printBasicData(void *arg)
 int main()
 {
     #if 0
-    BinarySearchTree *tree = NULL;
-    binarySearchTreeInit(&tree, compareFuncstuInfo, printFuncstuInfo);
+    BalanceBinarySearchTree *tree = NULL;
+    balanceBinarySearchTreeInit(&tree, compareFuncstuInfo, printFuncstuInfo);
     
 
     stuInfo stu1, stu2, stu3, stu4, stu5;
@@ -63,64 +63,64 @@ int main()
     
     #endif
     /*  */
-    BinarySearchTree *BST;
-    binarySearchTreeInit(&BST, compareBasicDataFunc, printBasicData);
+    BalanceBinarySearchTree *BST;
+    balanceBinarySearchTreeInit(&BST, compareBasicDataFunc, printBasicData);
 
     int buffer[DEFAULT_SIZE] = {56, 28, 75, 73, 77, 13, 7, 26, 100, 12};
 
     for (int idx = 0; idx < DEFAULT_SIZE; idx++)    
     {
-        binarySearchTreeInsert(BST, (void *)&buffer[idx]);
+        balanceBinarySearchTreeInsert(BST, (void *)&buffer[idx]);
     }
 
     /* 获取二叉搜索树的结点个数 */
     int size = 0;
-    binarySearchTreeGetNodeSize(BST, &size);
+    balanceBinarySearchTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
 
 
     /* 获取二叉搜索树的高度 */
     int height = 0;
-    binarySearchTreeGetHeight(BST, &height);
+    balanceBinarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
 
 
     /* 中序遍历 */
-    binarySearchTreeInOrderTravel(BST);
+    balanceBinarySearchTreeInOrderTravel(BST);
     printf("\n");
 
     /* 层序遍历 */
-    binarySearchTreeLevelOrderTravel(BST);
+    balanceBinarySearchTreeLevelOrderTravel(BST);
     printf("\n");
 
     /* 删除度为2 */
     int delVal = 56;
-    binarySearchTreeDelete(BST, &delVal);
-    binarySearchTreeLevelOrderTravel(BST);
+    balanceBinarySearchTreeDelete(BST, &delVal);
+    balanceBinarySearchTreeLevelOrderTravel(BST);
     printf("\n");
-    binarySearchTreeGetNodeSize(BST, &size);
+    balanceBinarySearchTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
-    binarySearchTreeGetHeight(BST, &height);
+    balanceBinarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
 
     /* 删除度为1 */
     delVal = 7;
-    binarySearchTreeDelete(BST, &delVal);
-    binarySearchTreeLevelOrderTravel(BST);
+    balanceBinarySearchTreeDelete(BST, &delVal);
+    balanceBinarySearchTreeLevelOrderTravel(BST);
     printf("\n");
-    binarySearchTreeGetNodeSize(BST, &size);
+    balanceBinarySearchTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
-    binarySearchTreeGetHeight(BST, &height);
+    balanceBinarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
 
     /* 删除度为0 */
     delVal = 12;
-    binarySearchTreeDelete(BST, &delVal);
-    binarySearchTreeLevelOrderTravel(BST);
+    balanceBinarySearchTreeDelete(BST, &delVal);
+    balanceBinarySearchTreeLevelOrderTravel(BST);
     printf("\n");
-    binarySearchTreeGetNodeSize(BST, &size);
+    balanceBinarySearchTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
-    binarySearchTreeGetHeight(BST, &height);
+    balanceBinarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
 
     return 0;

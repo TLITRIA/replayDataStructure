@@ -1,12 +1,8 @@
 #ifndef _BINARY_SEARCH_TREE_H_
 #define _BINARY_SEARCH_TREE_H_
+#include "common.h"
 
 
-#if 0
-#define ELEMENTTYPE int
-#else
-#define ELEMENTTYPE void*
-#endif
 
 typedef struct BSTreeNode
 {
@@ -53,6 +49,9 @@ int binarySearchTreePostOrderTravel(BinarySearchTree *pBstree);
 
 /* 二叉搜索树的层序遍历 */
 int binarySearchTreeLevelOrderTravel(BinarySearchTree *pBstree);
+
+/* 获取二叉搜索树的结点个数 */
+int binarySearchTreeGetNodeSize(BinarySearchTree *pBstree, int *pSize);
 
 /* 获取二叉搜索树的高度 */
 int binarySearchTreeGetHeight(BinarySearchTree *pBstree, int *pHeight);
