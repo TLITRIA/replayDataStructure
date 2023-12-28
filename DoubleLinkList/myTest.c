@@ -113,8 +113,6 @@ int main()
     myDoubleLinkListDelAppointVal(myList, 4);
     myDoubleLinkListForeach(myList);
     
-
-
    /* todo */
     myDoubleLinkListDestroy(myList);
 

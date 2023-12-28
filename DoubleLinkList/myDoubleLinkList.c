@@ -168,23 +168,17 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
     {
         return INVALID_ACCESS;
     }
-    int flag = 0;
     /* 2.封装遍历结点、待删除结点 */
     DoubleLinkNode * travelNode = pList->head;
     DoubleLinkNode * needDelNode = NULL;
 
     if (pos == pList->len)
     {
-        flag = 1;
     /*beifen 尾删 */
         DoubleLinkNode * tmpNode = pList->tail;
         pList->tail = pList->tail->prev;
+        pList->tail->next = NULL;
         needDelNode = tmpNode;
-
-        /**??
-         * pList->tail = pList->tail->prev
-         * FREE(pList->tail->next)
-        */
     }
     else
     {
@@ -197,11 +191,13 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
         needDelNode = travelNode->next;
         travelNode->next = needDelNode->next;
         needDelNode->next->prev = travelNode;
-        /* 5.释放取出的结点空间 */
-        FREE(needDelNode);
+        
+        
     }
-    /* 6.更新链表长度 */
+    /* 5.释放取出的结点空间 */
+    FREE(needDelNode);
 
+    /* 6.更新链表长度 */
     (pList->len)--;
 
     return ON_SUCCESS;
