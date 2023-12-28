@@ -1,29 +1,7 @@
-#ifndef __DoubleLinkList_H_
-#define __DoubleLinkList_H_
+#ifndef __MYDoubleLinkList_H_
+#define __MYDoubleLinkList_H_
 
-#if 1
-#define ELEMENTTYPE int
-#else
-#define ELEMENTTYPE void*
-#endif
-
-typedef struct DoubleLinkNode
-{
-    ELEMENTTYPE data;
-    struct DoubleLinkNode *next;
-    struct DoubleLinkNode *prev;
-} DoubleLinkNode;
-
-
-typedef struct DoubleLinkList
-{
-    DoubleLinkNode *head;
-    DoubleLinkNode *tail;
-    int len;
-    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
-    int (*printFunc)(ELEMENTTYPE val);
-} DoubleLinkList;
-
+#include "common.h"
 
 
 /* 链表初始化 */
@@ -70,6 +48,12 @@ int myDoubleLinkListReversePirnt(DoubleLinkList * pList);
 int myDoubleLinkListDestroy(DoubleLinkList * pList);
 
 
+/* 获取队头元素 */
+int myDoubleLinkListGetHeadVal(DoubleLinkList * pList, ELEMENTTYPE *pVal);
+
+
+/* 获取队尾元素 */
+int myDoubleLinkListGetTailVal(DoubleLinkList * pList, ELEMENTTYPE *pVal);
 
 
 #endif

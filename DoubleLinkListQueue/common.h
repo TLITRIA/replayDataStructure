@@ -2,13 +2,8 @@
 #define _COMMON_H_
 
 
-#if 1
-#define ELEMENTTYPE int
-#else
-#define ELEMENTTYPE void*
-#endif
 
-// /* 枚举错误类型 */
+// 状态码
 enum STATUS_CODE
 {
     NOT_FIND = -4,
@@ -17,36 +12,6 @@ enum STATUS_CODE
     MALLOC_ERROR,
     ON_SUCCESS,
 };
-
-
-typedef struct dynamicArray
-{
-    ELEMENTTYPE * data;
-    int length;
-    int capacity;
-} dynamicArray;
-
-
-typedef struct DoubleLinkNode
-{
-    ELEMENTTYPE data;
-    struct DoubleLinkNode *next;
-    struct DoubleLinkNode *prev;
-} DoubleLinkNode;
-
-
-typedef struct DoubleLinkList
-{
-    DoubleLinkNode *head;
-    DoubleLinkNode *tail;
-    int len;
-    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
-    int (*printFunc)(ELEMENTTYPE val);
-} DoubleLinkList;
-
-
-typedef DoubleLinkList DoubleLinkListQueue;
-
 
 #define START_POS 0/* todo */
 
@@ -74,4 +39,29 @@ if (p != NULL)  \
     p = NULL;   \
 }               \
 
-#endif // _COMMON_H_
+
+
+#define ELEMENTTYPE void*
+
+
+/* 双向链表结点 */
+typedef struct DoubleLinkNode
+{
+    ELEMENTTYPE data;
+    struct DoubleLinkNode *next;
+    struct DoubleLinkNode *prev;
+} DoubleLinkNode;
+
+/* 双向链表 */
+typedef struct DoubleLinkList
+{
+    DoubleLinkNode *head;
+    DoubleLinkNode *tail;
+    int len;
+    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
+    int (*printFunc)(ELEMENTTYPE val);
+} DoubleLinkList;
+
+typedef DoubleLinkList DoubleLinkListQueue;
+
+#endif //_COMMON_H_

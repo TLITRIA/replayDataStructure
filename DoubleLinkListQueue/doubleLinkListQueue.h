@@ -6,7 +6,9 @@
 
 
 /* 队列初始化 */
-int doubleLinkListQueueInit(DoubleLinkListQueue *pQueue);
+int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue,
+            int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
+            int (*printFunc)(ELEMENTTYPE val));
 
 /* 队列入队 */
 int doubleLinkListQueuePush(DoubleLinkListQueue *pQueue, ELEMENTTYPE val);

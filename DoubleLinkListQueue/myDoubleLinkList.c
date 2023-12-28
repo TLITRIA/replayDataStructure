@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "doubleLinkList.h"
+#include "myDoubleLinkList.h"
 #include "common.h"
 
 
@@ -127,13 +127,13 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
             travelNode = travelNode->next;
             pos--;
         }
-        travelNode->next->prev = newNode;/*todo3*/
+        travelNode->next->prev = newNode;
     }
     /* 4.插入 */
     newNode->next = travelNode->next;       /*1*/
     newNode->prev = travelNode;             /*2*/
     travelNode->next = newNode;             /*4*/
-    /* 5.更新链表长度、同步尾结点todo */
+    /* 5.更新链表长度、同步尾结点 */
     (pList->len)++;
     if (flag == 1)
     {
@@ -168,23 +168,17 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
     {
         return INVALID_ACCESS;
     }
-    int flag = 0;
     /* 2.封装遍历结点、待删除结点 */
     DoubleLinkNode * travelNode = pList->head;
     DoubleLinkNode * needDelNode = NULL;
 
     if (pos == pList->len)
     {
-        flag = 1;
     /*beifen 尾删 */
         DoubleLinkNode * tmpNode = pList->tail;
         pList->tail = pList->tail->prev;
+        pList->tail->next = NULL;
         needDelNode = tmpNode;
-
-        /**??
-         * pList->tail = pList->tail->prev
-         * FREE(pList->tail->next)
-        */
     }
     else
     {
@@ -197,11 +191,13 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
         needDelNode = travelNode->next;
         travelNode->next = needDelNode->next;
         needDelNode->next->prev = travelNode;
-        /* 5.释放取出的结点空间 */
-        FREE(needDelNode);
+        
+        
     }
-    /* 6.更新链表长度 */
+    /* 5.释放取出的结点空间 */
+    FREE(needDelNode);
 
+    /* 6.更新链表长度 */
     (pList->len)--;
 
     return ON_SUCCESS;
@@ -317,3 +313,21 @@ int myDoubleLinkListDestroy(DoubleLinkList * pList)
 
 
 
+/* 获取队头元素 */
+int myDoubleLinkListGetHeadVal(DoubleLinkList * pList, ELEMENTTYPE *pVal)
+{
+    JUDGE_NULL(pList);
+    JUDGE_NULL(pVal);
+    *pVal = pList->head->next->data;
+    return ON_SUCCESS;
+}
+
+
+/* 获取队尾元素 */
+int myDoubleLinkListGetTailVal(DoubleLinkList * pList, ELEMENTTYPE *pVal)
+{
+    JUDGE_NULL(pList);
+    JUDGE_NULL(pVal);
+    *pVal = pList->tail->data;
+    return ON_SUCCESS;
+}
