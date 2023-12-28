@@ -127,13 +127,13 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
             travelNode = travelNode->next;
             pos--;
         }
-        travelNode->next->prev = newNode;/*todo3*/
+        travelNode->next->prev = newNode;
     }
     /* 4.插入 */
     newNode->next = travelNode->next;       /*1*/
     newNode->prev = travelNode;             /*2*/
     travelNode->next = newNode;             /*4*/
-    /* 5.更新链表长度、同步尾结点todo */
+    /* 5.更新链表长度、同步尾结点 */
     (pList->len)++;
     if (flag == 1)
     {

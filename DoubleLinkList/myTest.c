@@ -60,6 +60,7 @@ int main()
     
 
 #if 1
+/* int 型 */
     myDoubleLinkListInit(&myList, compareFuncInt, printFuncInt);
     //插入数据
     ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};
@@ -77,74 +78,50 @@ int main()
     myDoubleLinkListForeach(myList);
 
 
-#if 1
-// 逆序测试
-    printf("顺序输出\n");//√
-    myDoubleLinkListInsertHead(myList, 2);
-    myDoubleLinkListInsertHead(myList, 2);
-    myDoubleLinkListInsertHead(myList, 2);
-    myDoubleLinkListInsertTail(myList, 5);
-    myDoubleLinkListInsertTail(myList, 5);
-    myDoubleLinkListInsertTail(myList, 5);
-    myDoubleLinkListForeach(myList);
-    
-    
-    printf("逆序输出\n");//
-    myDoubleLinkListReversePirnt(myList);
-    printf("data:%d\n", myList->head->data);
-#elif 0
-    // 插入删除数据
-    printf("头插3个2\n");//√
-    myDoubleLinkListInsertHead(myList, 2);
-    myDoubleLinkListInsertHead(myList, 2);
-    myDoubleLinkListInsertHead(myList, 2);
-    myDoubleLinkListForeach(myList);
 
-    printf("尾插3个5\n");//√
-    myDoubleLinkListInsertTail(myList, 5);
-    myDoubleLinkListInsertTail(myList, 5);
-    myDoubleLinkListInsertTail(myList, 5);
+    // 头插
+    printf("头插2个4\n");
+    myDoubleLinkListInsertHead(myList, 4);
+    myDoubleLinkListInsertHead(myList, 4);
     myDoubleLinkListForeach(myList);
-    
-    
-    printf("逆序输出\n");//
-    myDoubleLinkListReversePirnt(myList);
-    printf("data:%d\n", myList->head->next->prev->data);
-
-    /** 头删失效 
-     * 参数错误，已解决 
-     * */
-    printf("头删2个\n");//√
-    myDoubleLinkListDelHead(myList);
+    // 尾插
+    printf("尾插2个4\n");
+    myDoubleLinkListInsertTail(myList, 4);
+    myDoubleLinkListInsertTail(myList, 4);
+    myDoubleLinkListForeach(myList);
+    // 指定位置插入
+    printf("指定位置插入5\n");
+    myDoubleLinkListInsertAppointPos(myList, 1, 5);
+    myDoubleLinkListForeach(myList);
+    // 头删
+    printf("头删1个\n");
     myDoubleLinkListDelHead(myList);
     myDoubleLinkListForeach(myList);
-    
-    printf("尾删2个\n");//√
+    // 尾删 有BUG
+    printf("尾删1个\n");
     myDoubleLinkListDelTail(myList);
-    myDoubleLinkListDelTail(myList);
+    myDoubleLinkListForeach(myList);
+    // 逆序输出
+    printf("逆序输出\n");
+    myDoubleLinkListReversePirnt(myList);
+    // 指定位置删
+    printf("指定位置删\n");
+    myDoubleLinkListDelAppointPos(myList, 4);
+    myDoubleLinkListForeach(myList);
+    // 指定数据删
+    printf("删除所有4\n");
+    myDoubleLinkListDelAppointVal(myList, 4);
     myDoubleLinkListForeach(myList);
     
-    printf("指定位置【位置为2】删\n");//√
-    myDoubleLinkListDelAppointPos(myList, 2);
-    myDoubleLinkListForeach(myList);
-    
-    printf("指定数据删【值为2】\n");//√
-    int pos;
-    myDoubleLinkListDelAppointVal(myList, 2);
-    myDoubleLinkListForeach(myList);
-    
-#endif
- 
- 
 
-# if 0
+
    /* todo */
     myDoubleLinkListDestroy(myList);
 
-    JUDGE_IFDESTROY(myList);
-#endif
+    JUDGE_IFDESTROY(myList->head);
 
-#elif 0
+
+#else 
     myDoubleLinkListInit(&myList, compareFuncStuInfo, printFuncStuInfo);
     stuInfo stu1, stu2, stu3, stu4;
     memset(&stu1, 0, sizeof(stu1));
@@ -211,7 +188,7 @@ int main()
     myDoubleLinkListDestroy(myList);
 
     JUDGE_IFDESTROY(myList->head);
-#elif 0
+
     myDoubleLinkListInit(&myList, compareFuncInt, printFuncInt);
     //插入数据
     ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};
