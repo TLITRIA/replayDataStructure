@@ -61,7 +61,7 @@ int myDoubleLinkListInsertTail(DoubleLinkList * pList, ELEMENTTYPE val)
 static DoubleLinkNode * createDoubleLinkNode(ELEMENTTYPE val)
 {
     DoubleLinkNode * newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode) * 1);
-    memset(newNode, 0 ,sizeof(newNode));
+    memset(newNode, 0 ,sizeof(DoubleLinkNode) * 1);
     newNode->data = val;
     newNode->next = NULL;
     newNode->prev = NULL;

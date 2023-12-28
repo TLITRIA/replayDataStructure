@@ -12,7 +12,7 @@ int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue,
             int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
             int (*printFunc)(ELEMENTTYPE val))
 {   
-    myDoubleLinkListInit(&pQueue, compareFunc, printFunc);
+    myDoubleLinkListInit(pQueue, compareFunc, printFunc);
     return 0; 
 }
 
