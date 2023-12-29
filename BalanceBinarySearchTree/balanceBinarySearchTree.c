@@ -36,6 +36,8 @@ static AVLTreeNode * bstreeNodePreDecessor(AVLTreeNode *node);
 static AVLTreeNode * bstreeNodeSuccessor(AVLTreeNode *node);
 /* AVL树结点调整平衡 */
 static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
+/* 获取较高的子节点 */
+static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node);
 /***************************************/
 
 /* 判断二叉搜索树的结点度为2 */
@@ -154,9 +156,67 @@ static AVLTreeNode * createAVLTreeNewNode(ELEMENTTYPE val, AVLTreeNode * parentN
     return newBstNode;
 }
 
+static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node)
+{
+    int leftHeight = node->left == NULL ? 0 : node->left->height;
+    int rightHeight = node->right == NULL ? 0 : node->right->height;
+
+    if (leftHeight > rightHeight)
+    {
+        return node->left;
+    }
+    else if (leftHeight < rightHeight)
+    {
+        return node->right;
+    }
+    else /* 按道理返回哪个都行，但是在其他地方使用可能有不同需求 */
+    {
+        if (node->parent != NULL && node == node->parent->left)
+        {
+            return node->left;
+        }
+        else
+        {
+            return node->right;
+        }
+        
+        
+    }
+    
+    
+}
+
+
 static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
 {
-    /* todo */
+    /* LL LR RL RR */
+    AVLTreeNode *parent = AVLTreeNodeGetChildTaller(node);
+    AVLTreeNode *child = AVLTreeNodeGetChildTaller(parent);
+
+    
+    if (parent == node->left)   /* L */
+    {
+        if (child == parent->left)
+        {
+            /* LL */
+        }
+        else
+        {
+            /* LR */
+        }
+    }
+    else                        /* R */
+    {
+        if (child == parent->left)
+        {
+            /* RL */
+        }
+        else
+        {
+            /* RR */
+        }
+    }
+    
 }
 
 /* 新添加的结点一定是叶子结点 */
