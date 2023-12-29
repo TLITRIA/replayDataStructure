@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 
 
@@ -14,7 +15,7 @@ static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
 /* 自定义输出 */
 static int printFunc(ELEMENTTYPE val);
 /* 创建结点-√ */
-static AVLTreeNode * createBSTreeNewNode(ELEMENTTYPE val, AVLTreeNode * parentNode);
+static AVLTreeNode * createAVLTreeNewNode(ELEMENTTYPE val, AVLTreeNode * parentNode);
 /* 根据指定值获取二叉搜索树的结点 */
 static AVLTreeNode * baseAppointValGetBSTreeNode(BalanceBinarySearchTree *pBstree, ELEMENTTYPE val);
 /* 判断二叉搜索树的度为2-√ */
@@ -33,7 +34,8 @@ static int postOrderTravel(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
 static AVLTreeNode * bstreeNodePreDecessor(AVLTreeNode *node);
 /* 获取后继结点 */
 static AVLTreeNode * bstreeNodeSuccessor(AVLTreeNode *node);
-
+/* AVL树结点调整平衡 */
+static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
 /***************************************/
 
 /* 判断二叉搜索树的结点度为2 */
@@ -55,8 +57,14 @@ static int balanceBinarySearchTreeNodeIsLeaf(AVLTreeNode *node)
     return (node->left == NULL && node->right == NULL);
 }
 
-
-
+/* 添加结点后要做的事 */
+static int insertNodeAfter(BalanceBinarySearchTree *pBstree, AVLTreeNode *node);
+/* 计算结点的平衡因子 */
+static int AVLTreeNodeBalanceFactor(AVLTreeNode *node);
+/* 判断结果是否平衡 */
+static int AVLTreeNodeIsBalanced(AVLTreeNode *node);
+/* 更新结点高度 */
+static int AVLTreeNodeUpdateHeight(AVLTreeNode *node);
 /* ==================静态函数前置声明END=============== */
 
 
@@ -72,7 +80,7 @@ int balanceBinarySearchTreeInit(
     JUDGE_MALLOC(bstree);
     memset(bstree, 0, sizeof(BalanceBinarySearchTree) * 1);
     {
-        bstree->root = createBSTreeNewNode(0, NULL);
+        bstree->root = createAVLTreeNewNode(0, NULL);
         JUDGE_IFNULL(bstree->root);
         bstree->size = 0;
         bstree->compareFunc = compareFunc;
@@ -96,22 +104,100 @@ int balanceBinarySearchTreeInit(
     return ON_SUCCESS;
 }
 
+static int AVLTreeNodeUpdateHeight(AVLTreeNode *node)
+{
+    #if 0
+    JUDGE_IFNULL(node);
+    AVLTreeNode *travelNode = node;
+
+    while (travelNode->parent != NULL)
+    {
+        if (travelNode->left == NULL || travelNode->right == NULL)
+        {
+            travelNode->height += 1;
+        }    
+        else if (travelNode->left->left > travelNode->right->height)
+        {
+            travelNode->height = travelNode->left->height + 1;
+        }
+        else
+        {
+            travelNode->height = travelNode->right->height + 1;
+        }
+        travelNode = travelNode->parent;
+    }
+    #endif
+    #if 0
+    AVLTreeNodeBalanceFactor(node);
+    #endif
+    #if 1
+    int leftHeight = node->left == NULL ? 0 : node->left->height;
+    int rightHeight = node->right == NULL ? 0 : node->right->height;
+    return 1 + tmpMAX(leftHeight, rightHeight);
+    #endif
+}
+
 /* 封装树结点 */
-static AVLTreeNode * createBSTreeNewNode(ELEMENTTYPE val, AVLTreeNode * parentNode)
+static AVLTreeNode * createAVLTreeNewNode(ELEMENTTYPE val, AVLTreeNode * parentNode)
 {
     /* 分配根节点 */
     AVLTreeNode *newBstNode = (AVLTreeNode *)malloc(sizeof(AVLTreeNode) * 1);
     JUDGE_IFNULL_RETURN_NULL(newBstNode);
     memset(newBstNode, 0, sizeof(AVLTreeNode) * 1);
     {
-        newBstNode->data = 0;/* 新结点赋值 */
+        newBstNode->data = val;/* 新结点赋值 */
+        newBstNode->height = 1;
         newBstNode->left = NULL;
         newBstNode->right = NULL;
-        newBstNode->parent = NULL;
+        newBstNode->parent = parentNode;
     }
-    newBstNode->data = val;
-    newBstNode->parent = parentNode;
     return newBstNode;
+}
+
+static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
+{
+    /* todo */
+}
+
+/* 新添加的结点一定是叶子结点 */
+static int insertNodeAfter(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
+{
+    while ((node = node->parent) != NULL)
+    {
+        /* 程序执行到这里的时候一定不止一个结点 */
+        if (AVLTreeNodeIsBalanced(node))
+        {
+            /* 如果结点平衡，就更新高度 */
+            AVLTreeNodeUpdateHeight(node);
+        }
+        else
+        {
+            /* node最低不平衡结点 */
+            /* 如果不平衡就调整 */
+            AVLTreeNodeAdjustBalance(pBstree, node);
+
+
+            /* 调整完最低的不平衡结点，上面的不平衡结点就已平衡 */
+        }
+        
+    }
+    /* 更新高度 */
+    /* 调整平衡 */
+    return ON_SUCCESS;
+}
+
+/* 计算结点的平衡因子 */
+static int AVLTreeNodeBalanceFactor(AVLTreeNode *node)
+{
+    int leftHeight = node->left == NULL ? 0: node->left->height;
+    int rightHeight = node->right == NULL ? 0: node->right->height;
+    return leftHeight - rightHeight;
+}
+
+/* 判断结果是否平衡 */
+static int AVLTreeNodeIsBalanced(AVLTreeNode *node)
+{
+    return abs(AVLTreeNodeBalanceFactor(node)) <= 1;
 }
 
 
@@ -167,7 +253,7 @@ int balanceBinarySearchTreeInsert(BalanceBinarySearchTree *pBstree, ELEMENTTYPE 
         newBstNode->parent = parentNode;
     }
 #else
-    AVLTreeNode *newBstNode = createBSTreeNewNode(val, parentNode);
+    AVLTreeNode *newBstNode = createAVLTreeNewNode(val, parentNode);
     JUDGE_MALLOC(newBstNode);
 #endif
 

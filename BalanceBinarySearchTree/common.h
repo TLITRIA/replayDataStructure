@@ -21,7 +21,8 @@ enum MY_STATUS_CODE
     ON_SUCCESS,
 };
 
-
+#define true 1
+#define false 0
 
 
 /* 判断malloc是否分配成功 */
