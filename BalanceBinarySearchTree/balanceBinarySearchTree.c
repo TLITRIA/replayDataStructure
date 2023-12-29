@@ -488,6 +488,18 @@ int balanceBinarySearchTreeGetHeight(BalanceBinarySearchTree *pBstree, int *pHei
         return 0;
     }
     
+#if 1
+    if (pBstree->size == 0)
+    {
+        *pHeight = 0;
+    }
+    else
+    {
+        *pHeight = pBstree->root->height;
+    }
+    
+
+#else
     AVLTreeNode *travelNode = NULL;
     DoubleLinkListQueue * pQueue = NULL;
     doubleLinkListQueueInit(&pQueue);
@@ -521,14 +533,17 @@ int balanceBinarySearchTreeGetHeight(BalanceBinarySearchTree *pBstree, int *pHei
             doubleLinkListQueueGetSize(pQueue, &levelSize);
         }
     }
-    
-    *pHeight = height;
-    /* 释放队列空间 */
-#if 1
+       /* 释放队列空间 */
+    #if 1
     doubleLinkListQueueDestroy(pQueue);
-#else
+    #else
     pBstree->pQueue(pQueue);
+    #endif 
+
+    *pHeight = height;
 #endif
+    
+
     return ON_SUCCESS;
 }
 
