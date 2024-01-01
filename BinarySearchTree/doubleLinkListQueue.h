@@ -5,6 +5,9 @@
 
 
 
+
+
+
 /* 队列初始化 */
 int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue,
             int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),

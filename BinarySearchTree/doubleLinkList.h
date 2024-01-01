@@ -1,7 +1,10 @@
 #ifndef __MYDoubleLinkList_H_
 #define __MYDoubleLinkList_H_
 
+
+
 #include "common.h"
+
 
 
 /* 链表初始化 */

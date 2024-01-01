@@ -2,6 +2,37 @@
 #define _COMMON_H_
 
 
+#define ELEMENTTYPE void*
+
+
+
+/* 双向链表结点 */
+typedef struct DoubleLinkNode
+{
+    ELEMENTTYPE data;
+    struct DoubleLinkNode *next;
+    struct DoubleLinkNode *prev;
+} DoubleLinkNode;
+
+/* 双向链表 */
+typedef struct DoubleLinkList
+{
+    DoubleLinkNode *head;
+    DoubleLinkNode *tail;
+    int len;
+    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
+    int (*printFunc)(ELEMENTTYPE val);
+} DoubleLinkList;
+
+typedef DoubleLinkList DoubleLinkListQueue;
+
+
+
+
+
+
+
+
 
 // 状态码
 enum STATUS_CODE
@@ -45,28 +76,6 @@ if (p != NULL)  \
 
 
 
-#define ELEMENTTYPE void*
-
-
-/* 双向链表结点 */
-typedef struct DoubleLinkNode
-{
-    ELEMENTTYPE data;
-    struct DoubleLinkNode *next;
-    struct DoubleLinkNode *prev;
-} DoubleLinkNode;
-
-/* 双向链表 */
-typedef struct DoubleLinkList
-{
-    DoubleLinkNode *head;
-    DoubleLinkNode *tail;
-    int len;
-    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
-    int (*printFunc)(ELEMENTTYPE val);
-} DoubleLinkList;
-
-typedef DoubleLinkList DoubleLinkListQueue;
 
 
 #endif //_COMMON_H_

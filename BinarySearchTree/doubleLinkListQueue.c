@@ -1,6 +1,7 @@
 #include "doubleLinkListQueue.h"
 #include "doubleLinkList.h"
 #include "common.h"
+
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
 
 static int printFunc(ELEMENTTYPE val);
