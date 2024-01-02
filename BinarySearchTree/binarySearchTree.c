@@ -613,3 +613,17 @@ int binarySearchTreeGetNodeSize(BinarySearchTree *pBstree, int *pSize)
     }
     return ON_SUCCESS;
 }
+
+
+/**二叉树打印树形
+ * ┏    左子树
+ * ┓    右子树
+ * ━    横线
+ * ┛    仅有左子树的父节点
+ * ┗    仅有右子树的父节点
+ * ┻    有左右子树的父节点
+*/
+int binarySearchTreePrintStructure(BinarySearchTree *pBstree)
+{
+    return ON_SUCCESS;
+}

@@ -60,4 +60,10 @@ int binarySearchTreeDelete(BinarySearchTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉搜索树的销毁 */
 int binarySearchTreeDestory(BinarySearchTree *pBstree);
+
+/* 二叉树打印树形 */
+int binarySearchTreePrintStructure(BinarySearchTree *pBstree);
+
+
+
 #endif //_BINARY_SEARCH_TREE_H_
