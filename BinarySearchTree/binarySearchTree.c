@@ -125,12 +125,18 @@ static BSTreeNode * bstreeNodeSuccessor(BSTreeNode *node)
 static int preOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
 {
     JUDGE_NULL(node);
+#if 0
     pBstree->printFunc(node->data);
     inOrderTravel(pBstree, node->left);
     inOrderTravel(pBstree, node->right);
+#else
+    pBstree->printFunc(node->data);
+    preOrderTravel(pBstree, node->left);
+    preOrderTravel(pBstree, node->right);
+#endif
     return ON_SUCCESS;
 }
-
+    
 
 /* 二叉搜索树的中序遍历todo 左子树 根节点 右子树 */
 static int inOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
@@ -150,9 +156,16 @@ static int inOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
 static int postOrderTravel(BinarySearchTree *pBstree, BSTreeNode *node)
 {
     JUDGE_NULL(node);
+#if 0
     inOrderTravel(pBstree, node->left);
     inOrderTravel(pBstree, node->right);
     pBstree->printFunc(node->data);
+#else
+    postOrderTravel(pBstree, node->left);
+    postOrderTravel(pBstree, node->right);
+    pBstree->printFunc(node->data);
+#endif    
+    
     return ON_SUCCESS;
 }
 

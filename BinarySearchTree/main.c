@@ -95,10 +95,10 @@ int main()
     // printf("中序遍历\n");
     // binarySearchTreeInOrderTravel(BST);
     // printf("\n");
-    printf("前序遍历\n");/* todo */
+    printf("前序遍历\n");/* finished函数调用错误 */
     binarySearchTreePreOrderTravel(BST);
     printf("\n");
-    printf("后序遍历\n");/* todo */
+    printf("后序遍历\n");/* finished函数调用错误 */
     binarySearchTreePostOrderTravel(BST);
     printf("\n");
     // printf("层序遍历\n");
