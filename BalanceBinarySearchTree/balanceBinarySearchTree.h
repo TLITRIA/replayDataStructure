@@ -7,7 +7,7 @@
 typedef struct AVLTreeNode
 {
     ELEMENTTYPE data;
-    int height;
+    int height;                 /* 结点维护高度属性 */
     struct AVLTreeNode *left;   /* 左子树 */
     struct AVLTreeNode *right;  /* 右子树 */
     struct AVLTreeNode *parent; /* 父节点 */
@@ -16,16 +16,16 @@ typedef struct AVLTreeNode
 typedef struct BalanceBinarySearchTree
 {
    
-    AVLTreeNode *root;           /* 根节点 */ 
-    int size;                   /* 树结点个数 */
-    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);/* 钩子 比较器（把比较器放入结构体内部） */
-    int (*printFunc)(ELEMENTTYPE val);/* 钩子函数 包装器实现自定义打印函数接口 */
+    AVLTreeNode *root;                                          /* 根节点 */ 
+    int size;                                                   /* 树结点个数 */
+    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);     /* 钩子 比较器（把比较器放入结构体内部） */
+    int (*printFunc)(ELEMENTTYPE val);                          /* 钩子函数 包装器实现自定义打印函数接口 */
     
     // DoubleLinkListQueue *pQueue;/* 优化todo 把队列的属性放入队列 */
 } BalanceBinarySearchTree;
 
 
-/* 二叉搜索树的初始化 */
+/* 二叉搜索树的初始化√ */
 int balanceBinarySearchTreeInit(BalanceBinarySearchTree **pBstree, 
             int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2), 
             int printFunc(ELEMENTTYPE val));

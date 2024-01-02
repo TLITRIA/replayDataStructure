@@ -1,35 +1,13 @@
 #ifndef _DOUBLE_LINK_LIST_QUEUE_
 #define _DOUBLE_LINK_LIST_QUEUE_
 
-#include "doubleLinkList.h"
+#include "common.h"
 
-// #if 1
-// #define ELEMENTTYPE int
-// #else
-// #define ELEMENTTYPE void*
-// #endif
-
-// typedef struct DoubleLinkNode
-// {
-//     ELEMENTTYPE data;
-//     struct DoubleLinkNode *next;
-//     struct DoubleLinkNode *prev;
-// } DoubleLinkNode;
-
-
-// typedef struct DoubleLinkList
-// {
-//     DoubleLinkNode *head;
-//     DoubleLinkNode *tail;
-//     int len;
-//     int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
-//     int (*printFunc)(ELEMENTTYPE val);
-// } DoubleLinkList;
-
-typedef DoubleLinkList DoubleLinkListQueue;/* todo */
 
 /* 队列初始化 */
-int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue);
+int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue,
+            int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
+            int (*printFunc)(ELEMENTTYPE val));
 
 /* 队列入队 */
 int doubleLinkListQueuePush(DoubleLinkListQueue *pQueue, ELEMENTTYPE val);

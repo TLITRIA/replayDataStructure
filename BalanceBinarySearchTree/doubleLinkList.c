@@ -26,13 +26,17 @@ if (NULL == p)              \
 
 
 /* 根据值获取指定结点在链表的位置 */
-static int myDoubleLinkListGetPosAccordVal(DoubleLinkList * pList, ELEMENTTYPE val, \
-int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE));
+static int myDoubleLinkListGetPosAccordVal(DoubleLinkList * pList, ELEMENTTYPE val, int *pPos);
 static DoubleLinkNode * createDoubleLinkNode(ELEMENTTYPE val);
+
+static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
+static int printFunc(ELEMENTTYPE val);
 
 
 /* 链表初始化 */
-int myDoubleLinkListInit(DoubleLinkList ** pList)
+int myDoubleLinkListInit(DoubleLinkList ** pList,
+            int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
+            int (*printFunc)(ELEMENTTYPE val))
 {
     /* 1.初始化新链表 */
     DoubleLinkList * newList = (DoubleLinkList *)malloc(sizeof(DoubleLinkList) * 1);
@@ -50,6 +54,9 @@ int myDoubleLinkListInit(DoubleLinkList ** pList)
     newList->head->data = 0;
     newList->head->next = NULL;
     newList->head->prev = NULL;
+
+    newList->compareFunc = compareFunc;
+    newList->printFunc = printFunc;
     /* 4.赋值 */
     *pList = newList;
 
@@ -59,7 +66,7 @@ int myDoubleLinkListInit(DoubleLinkList ** pList)
 /* 插入链表--头插 */
 int myDoubleLinkListInsertHead(DoubleLinkList * pList, ELEMENTTYPE val)
 {
-    myDoubleLinkListInsertAppointPos(pList, START_POS, val); //！！链表地址不计头结点，从0开始
+    myDoubleLinkListInsertAppointPos(pList, START_POS, val); 
 }
 
 /* 插入链表--尾插 */
@@ -74,8 +81,8 @@ int myDoubleLinkListInsertTail(DoubleLinkList * pList, ELEMENTTYPE val)
 static DoubleLinkNode * createDoubleLinkNode(ELEMENTTYPE val)
 {
     DoubleLinkNode * newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode) * 1);
-    // JUDGE_MALLOC(newNode);todo
-    memset(newNode, 0 ,sizeof(newNode));
+    JUDGE_IFNULL_RETURN_NULL(newNode);
+    memset(newNode, 0, sizeof(DoubleLinkNode) * 1);
     newNode->data = val;
     newNode->next = NULL;
     newNode->prev = NULL;
@@ -91,15 +98,6 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
     {
         return INVALID_ACCESS;
     }
-    int flag = 0;
-    if (pos == pList->len)
-    {
-        flag = 1;
-    }
-    PRINT_INT(pos);
-    PRINT_INT(pList->len);
-    PRINT_INT(flag);
-    PRINT;
 
     /* 2.封装待插入结点 */
 #if 0
@@ -111,29 +109,27 @@ int myDoubleLinkListInsertAppointPos(DoubleLinkList * pList, int pos, ELEMENTTYP
 #else
     DoubleLinkNode * newNode = createDoubleLinkNode(val);
     JUDGE_NULL(newNode);
-
 #endif
 
-
     /* 3.travelNode遍历到插入位置 */
+    int flag = 0;
     DoubleLinkNode * travelNode = pList->head;
-    while (pos--)
+    if (pos == pList->len)
     {
-        travelNode = travelNode->next;
-        travelNode->next->prev = travelNode;/*3*/
+        flag = 1;
+        travelNode = pList->tail;
     }
-
-    /**4.
-     * todo 头尾中
-     * 中间插入
-     * 尾插
-     * 空链表
-     * 
-    */
-    newNode->next = travelNode->next; /*1*/
-    newNode->prev = travelNode;/*2*/
-    
-    travelNode->next = newNode;      /*4*/
+    else
+    {
+        while (pos--)
+        {
+            travelNode = travelNode->next;
+        }
+        travelNode->next->prev = newNode;/*3*/
+    }
+    newNode->next = travelNode->next;   /*1*/
+    newNode->prev = travelNode;         /*2*/
+    travelNode->next = newNode;         /*4*/
 
     /* 5.更新链表长度、同步尾结点todo */
     (pList->len)++;
@@ -169,23 +165,17 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
     {
         return INVALID_ACCESS;
     }
-    int flag = 0;
     /* 2.封装遍历结点、待删除结点 */
     DoubleLinkNode * travelNode = pList->head;
     DoubleLinkNode * needDelNode = NULL;
 
     if (pos == pList->len)
     {
-        flag = 1;
     /*beifen 尾删 */
         DoubleLinkNode * tmpNode = pList->tail;
         pList->tail = pList->tail->prev;
+        pList->tail->next = NULL;
         needDelNode = tmpNode;
-
-        /**??
-         * pList->tail = pList->tail->prev
-         * FREE(pList->tail->next)
-        */
     }
     else
     {
@@ -198,20 +188,19 @@ int myDoubleLinkListDelAppointPos(DoubleLinkList * pList, int pos)
         needDelNode = travelNode->next;
         travelNode->next = needDelNode->next;
         needDelNode->next->prev = travelNode;
-        /* 5.释放取出的结点空间 */
-        FREE(needDelNode);
     }
+    /* 5.释放结点 */
+    FREE(needDelNode);
     /* 6.更新链表长度 */
-
     (pList->len)--;
 
     return ON_SUCCESS;
 }
 
 /* 根据值获取指定结点在链表的位置 */
-int myDoubleLinkListGetPosAccordVal(DoubleLinkList * pList, \
-                                    ELEMENTTYPE val, \
-                                    int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE))
+int myDoubleLinkListGetPosAccordVal(DoubleLinkList * pList, 
+                                    ELEMENTTYPE val, 
+                                    int *pPos)
 {
     /* 1.封装遍历结点 */
     int pos = 1;
@@ -219,26 +208,31 @@ int myDoubleLinkListGetPosAccordVal(DoubleLinkList * pList, \
     /* 2.寻找符合值的结点，返回pos */
     while (travelNode != NULL)
     {
-        /* todo */
+        if (pList->compareFunc(val, travelNode->data))
+        {
+            *pPos = pos;
+            return pos;
+        }
         travelNode = travelNode->next;
         pos++;
     }
     /* 3.找不到就返回错误信息 */
     /* 解引用用 */
-
+    *pPos = NOT_FIND;
     return NOT_FIND;
 }
 
 /* 删除链表--指定数据删 */
 /* 如果链表存储的是地址则用钩子函数比较、删除 */
-int myDoubleLinkListDelAppointVal(DoubleLinkList * pList, ELEMENTTYPE val, int (*compareFunc)(ELEMENTTYPE, ELEMENTTYPE))
+int myDoubleLinkListDelAppointVal(DoubleLinkList * pList, ELEMENTTYPE val)
 {
+    JUDGE_IFNULL(pList);
     // pos存放地址或错误信息，size获取链表长度
     int pos = 0;
     int size = 0;
     while (myDoubleLinkListGetLength(pList, &size) >= 0 && pos != NOT_FIND)
     {
-        myDoubleLinkListGetPosAccordVal(pList, val, compareFunc);
+        myDoubleLinkListGetPosAccordVal(pList, val, &pos);
         myDoubleLinkListDelAppointPos(pList, pos);
     }
     return ON_SUCCESS;

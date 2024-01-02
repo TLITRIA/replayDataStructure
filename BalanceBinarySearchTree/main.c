@@ -2,7 +2,6 @@
 #include <string.h>
 #include "balanceBinarySearchTree.h"
 
-
 #define DEFAULT_SIZE 10
 
 typedef struct stuInfo
@@ -35,7 +34,7 @@ int compareBasicDataFunc(void *arg1, void *arg2)
 int printBasicData(void *arg)
 {
     int val = *(int *)arg;
-    printf(":%d\t", val);
+    printf("data:%d\t", val);
     return ON_SUCCESS;
 }
 
@@ -62,29 +61,28 @@ int main()
     stuInfo buffer[DEFAULT_SIZE] = {};
     
     #endif
+
+
     /*  */
     BalanceBinarySearchTree *BST;
     balanceBinarySearchTreeInit(&BST, compareBasicDataFunc, printBasicData);
 
-    int buffer[DEFAULT_SIZE] = {56, 28, 75, 73, 77, 13, 7, 26, 100, 12};
-
-    for (int idx = 0; idx < DEFAULT_SIZE; idx++)    
+    // int buffer[DEFAULT_SIZE] = {56, 28, 75, 73, 77, 13, 7, 26, 100, 12};
+    int buffer[] = {11, 22, 33};
+    int size = 0;
+    int height = 0;
+    for (int idx = 0; idx < 3; idx++)
     {
         balanceBinarySearchTreeInsert(BST, (void *)&buffer[idx]);
+        /* 获取二叉搜索树的结点个数 */
+        balanceBinarySearchTreeGetNodeSize(BST, &size);
+        printf("size:%d\n", size);
+        /* 获取二叉搜索树的高度 */
+        balanceBinarySearchTreeGetHeight(BST, &height);
+        printf("height:%d\n", height);
     }
 
-    /* 获取二叉搜索树的结点个数 */
-    int size = 0;
-    balanceBinarySearchTreeGetNodeSize(BST, &size);
-    printf("size:%d\n", size);
-
-
-    /* 获取二叉搜索树的高度 */
-    int height = 0;
-    balanceBinarySearchTreeGetHeight(BST, &height);
-    printf("height:%d\n", height);
-
-
+#if 0
     /* 中序遍历 */
     balanceBinarySearchTreeInOrderTravel(BST);
     printf("\n");
@@ -122,6 +120,6 @@ int main()
     printf("size:%d\n", size);
     balanceBinarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
-
+#endif
     return 0;
 }

@@ -1,15 +1,26 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_
 
-
-#if 0
-#define ELEMENTTYPE int
-#else
 #define ELEMENTTYPE void*
-#endif
 
-#define QUEUETYPE void*
+typedef struct DoubleLinkNode
+{
+    ELEMENTTYPE data;
+    struct DoubleLinkNode *next;
+    struct DoubleLinkNode *prev;
+} DoubleLinkNode;
 
+
+typedef struct DoubleLinkList
+{
+    DoubleLinkNode *head;
+    DoubleLinkNode *tail;
+    int len;
+    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
+    int (*printFunc)(ELEMENTTYPE val);
+} DoubleLinkList;
+
+typedef DoubleLinkList DoubleLinkListQueue;
 
 /* 枚举错误类型 */
 enum MY_STATUS_CODE 
