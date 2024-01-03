@@ -1,8 +1,7 @@
 #ifndef __DOUBLELINKLIST_H_
 #define __DOUBLELINKLIST_H_
 
-#include "common.h"
-
+#define ELEMENTTYPE void *
 
 typedef struct DoubleLinkNode
 {
