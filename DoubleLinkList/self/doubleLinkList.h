@@ -3,18 +3,7 @@
 
 #include "common.h"
 
-/***
- * 双向链表结点结构体有什么？
- * 值
- * prev结点
- * next结点
- * 双向链表结构体有什么？
- * 头节点
- * 尾结点
- * 长度
- * print钩子函数
- * compare钩子函数
-*/
+
 typedef struct DoubleLinkNode
 {
     ELEMENTTYPE data;
@@ -31,7 +20,6 @@ typedef struct DoubleLinkList
     int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
     int (*printFunc)(ELEMENTTYPE val1);
 } DoubleLinkList;
-
 
 /* 双向链表的接口有什么？ */
 

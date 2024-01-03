@@ -28,5 +28,4 @@ if (NULL == ptr)                \
     
 
 
-
 #endif //__DOUBLELINKLIST_H_
