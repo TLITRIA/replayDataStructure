@@ -7,7 +7,7 @@
 
 /* =================静态函数声明================== */
 
-static DoubleLinkNode *createDoubleLinkNode();
+static DoubleLinkNode *createDoubleLinkNode(ELEMENTTYPE val);
 
 
 /* =================================== */
@@ -15,7 +15,7 @@ static DoubleLinkNode *createDoubleLinkNode(ELEMENTTYPE val)
 {
     /* 创建头结点 */
     DoubleLinkNode *newNode = (DoubleLinkNode *)malloc(sizeof(DoubleLinkNode) * 1);
-    JUDGE_MALLOC_ERROR(newNode);
+    JUDGE_PTR_NULL_RETURN_NULL(newNode);
     memset(newNode, 0, sizeof(newNode));
     /* 初始化头结点结构体 */
     {
@@ -146,13 +146,11 @@ int doubleLinkListGetValAppointPos(DoubleLinkList *pList, int pos, ELEMENTTYPE *
 int doubleLinkListForeach(DoubleLinkList *pList)
 {
     JUDGE_PTR_NULL(pList);
-    DoubleLinkNode *travelNode = pList->head;
-    int count = pList->length;
-    while (travelNode != pList->tail && count > 0)
+    DoubleLinkNode *travelNode = pList->head->next; /* ！！头结点的值是NULL */
+    while (travelNode != NULL)
     {
         pList->printFunc(travelNode->data);
         travelNode = travelNode->next;
-        count--;
     }
     return ON_SUCCESS;
 }
@@ -162,12 +160,10 @@ int doubleLinkListForeachReverse(DoubleLinkList *pList)
 {
     JUDGE_PTR_NULL(pList);
     DoubleLinkNode *travelNode = pList->tail;
-    int count = pList->length;
-    while (travelNode != pList->head && count > 0)
+    while (travelNode != NULL)
     {
         pList->printFunc(travelNode->data);
         travelNode = travelNode->prev;
-        count--;
     }
     return ON_SUCCESS;
 }

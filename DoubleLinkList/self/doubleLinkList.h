@@ -6,8 +6,8 @@
 typedef struct DoubleLinkNode
 {
     ELEMENTTYPE data;
-    DoubleLinkNode *next;
-    DoubleLinkNode *prev;
+    struct DoubleLinkNode *next;   /* 少了struct */
+    struct DoubleLinkNode *prev;
 } DoubleLinkNode;
 
 

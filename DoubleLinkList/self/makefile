@@ -1,14 +1,14 @@
 all:testLinkList
 
 # 双向链表测试
-testLinkList:doubleLinkList.o mainLinkList.o
-	gcc doubleLinkList.o mainLinkList.o -o testLinkList
+testLinkList:doubleLinkList.o testLinkList.o
+	gcc -g doubleLinkList.o testLinkList.o -o testLinkList
 
 doubleLinkList.o:doubleLinkList.c
-	gcc -c doubleLinkList.c -o doubleLinkList.o
+	gcc -c -g doubleLinkList.c -o doubleLinkList.o
 
-mainLinkList.o:mainLinkList.c
-	gcc -c mainLinkList.c -o mainLinkList.o
+testLinkList.o:testLinkList.c
+	gcc -c -g testLinkList.c -o testLinkList.o
 
 clean:
 	@rm -rf *.o testLinkList
