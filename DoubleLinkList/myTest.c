@@ -43,7 +43,7 @@ int compareFuncInt(int arg1, int arg2)
 int printFuncStuInfo(void *arg)
 {
     stuInfo * info = (stuInfo*)arg;
-    printf("info->age:%d, info->sex:%c\n", info->age, info->sex);
+    printf("age:%d, sex:%c\n", info->age, info->sex);
 }
 
 int compareFuncStuInfo(void *arg1, void *arg2)
@@ -59,7 +59,7 @@ int main()
     DoubleLinkList *myList = NULL;
     
 
-#if 1
+#if 0
 /* int 型 */
     myDoubleLinkListInit(&myList, compareFuncInt, printFuncInt);
     //插入数据
@@ -186,23 +186,6 @@ int main()
     myDoubleLinkListDestroy(myList);
 
     JUDGE_IFDESTROY(myList->head);
-
-    myDoubleLinkListInit(&myList, compareFuncInt, printFuncInt);
-    //插入数据
-    ELEMENTTYPE buffer[BUFFER_SIZE] = {1, 2, 3};
-    for (int idx = 0; idx < BUFFER_SIZE; idx++)
-    {
-        myDoubleLinkListInsertTail(myList, buffer[idx]);
-        // myDoubleLinkListInsertHead(myList, buffer[idx]);
-        
-    }
-    // // 获取长度
-    // int size = 0;
-    // myDoubleLinkListGetLength(myList, &size);
-    // PRINT_INT(size);
-    // //遍历链表
-    // myDoubleLinkListForeach(myList);
-
 
 #endif
 

@@ -1,7 +1,7 @@
 #ifndef __MYDoubleLinkList_H_
 #define __MYDoubleLinkList_H_
 
-#if 1
+#if 0
 #define ELEMENTTYPE int
 #else
 #define ELEMENTTYPE void*
