@@ -364,8 +364,6 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
     {
         (pBstree->size)++;
         pBstree->root->data = val;
-        // printf("pBstree->size:%d\t", pBstree->size);
-        // pBstree->printFunc(val);
         return ON_SUCCESS;
     }
     
@@ -373,9 +371,7 @@ int binarySearchTreeInsert(BinarySearchTree *pBstree, ELEMENTTYPE val)
     BSTreeNode *travelNode = pBstree->root;
     BSTreeNode *parentNode = pBstree->root;
 
-    /* 确定符号：放在左边还是右边 */
     int cmp = 0;
-    /* 遍历到指定位置 */
     while (travelNode != NULL)
     {
         parentNode = travelNode;

@@ -22,7 +22,7 @@ typedef struct BinarySearchTree
     int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2); /* 钩子 比较器（把比较器放入结构体内部） */
     int (*printFunc)(ELEMENTTYPE val);              /* 钩子函数 包装器实现自定义打印函数接口 */
     
-    // DoubleLinkListQueue *pQueue;             /* 优化todo 把队列的属性放入队列 */
+    // DoubleLinkListQueue *pQueue;             /* 优化todo 把队列的属性放入结构体 */
 } BinarySearchTree;
 
 
