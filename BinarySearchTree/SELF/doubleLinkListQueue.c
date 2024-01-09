@@ -3,15 +3,26 @@
 #include "common.h"
 
 static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2);
-
 static int printFunc(ELEMENTTYPE val);
 
 
 
+
+
+static int compareFunc(ELEMENTTYPE val1, ELEMENTTYPE val2)
+{
+    return ON_SUCCESS;
+}
+
+static int printFunc(ELEMENTTYPE val)
+{
+    return ON_SUCCESS;
+}
+
+
+
 /* 队列初始化 */
-int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue,
-            int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
-            int (*printFunc)(ELEMENTTYPE val))
+int doubleLinkListQueueInit(DoubleLinkListQueue **pQueue)
 {   
     myDoubleLinkListInit(pQueue, compareFunc, printFunc);
     return 0; 

@@ -25,6 +25,7 @@ typedef struct BSTreeList
     int size;
     int (*compareFunc)(ELEMENTYPE val1, ELEMENTYPE val2);
     int (*printFunc)(ELEMENTYPE val);
+    
 } BSTreeList;
 
 /* 二叉树初始化 */
