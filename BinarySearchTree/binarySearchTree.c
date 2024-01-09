@@ -86,7 +86,6 @@ static BSTreeNode * bstreeNodePreDecessor(BSTreeNode *node)
     /* 有左子树 */
     if (node->left != NULL)
     {
-        /**/
         BSTreeNode *travelNode = node->left;
         while (travelNode->right != NULL)
         {
@@ -94,7 +93,7 @@ static BSTreeNode * bstreeNodePreDecessor(BSTreeNode *node)
         }
         return travelNode;
     }
-
+    /* 没有左子树 */
     while (node->parent != NULL && node == node->parent->left)
     {
         node = node->parent;
@@ -272,15 +271,15 @@ static int binarySearchTreeDeleteNode(BinarySearchTree *pBstree, BSTreeNode *nod
     /* 度为1 或0 */
     BSTreeNode *childNode = node->left != NULL ? node->left : node->right;
     BSTreeNode *delNode = NULL;
-    if (childNode != NULL)
+    if (childNode != NULL)  /* 度为1 */
     {
         childNode->parent = node->parent;
-        if (node->parent == NULL)   /* 度为1 */
+        if (node->parent == NULL)   /* 是根节点 */
         {
             pBstree->root = childNode;
             delNode = node;
         }
-        else
+        else                        /* 不是根节点 */
         {
             if (node == node->parent->left)
             {
@@ -615,15 +614,28 @@ int binarySearchTreeGetNodeSize(BinarySearchTree *pBstree, int *pSize)
 }
 
 
-/**二叉树打印树形
+/**二叉树打印树形 
  * ┏    左子树
  * ┓    右子树
  * ━    横线
  * ┛    仅有左子树的父节点
  * ┗    仅有右子树的父节点
  * ┻    有左右子树的父节点
+ * 考虑到数字的位数不能太大
 */
 int binarySearchTreePrintStructure(BinarySearchTree *pBstree)
 {
+    JUDGE_NULL(pBstree);
+    int height = 0;
+    binarySearchTreeGetHeight(pBstree, &height);
+
+
+
+
+
+
+
+
+
     return ON_SUCCESS;
 }

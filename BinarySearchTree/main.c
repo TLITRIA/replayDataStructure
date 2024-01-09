@@ -35,7 +35,7 @@ int compareBasicDataFunc(void *arg1, void *arg2)
 int printBasicData(void *arg)
 {
     int val = *(int *)arg;
-    printf("val:%d\t", val);
+    printf("%d ", val);
     return ON_SUCCESS;
 }
 
@@ -67,6 +67,9 @@ int main()
     stuInfo buffer[DEFAULT_SIZE] = {};
     
     #endif
+
+
+#if 1
     /* 初始化二叉树 */
     BinarySearchTree *BST;
     binarySearchTreeInit(&BST, compareBasicDataFunc, printBasicData);
@@ -79,19 +82,21 @@ int main()
         binarySearchTreeInsert(BST, (void *)&buffer[idx]);
     }
 
+
+    PRINT_BOUNDARY;
     /* 获取二叉搜索树的结点个数 */
     int size = 0;
-    binarySearchTreeGetNodeSize(BST, &size);/* 结点高度错误todo */
+    binarySearchTreeGetNodeSize(BST, &size);
     printf("二叉搜索树结点个数size:%d\n", size);
 
-
+    PRINT_BOUNDARY;
     /* 获取二叉搜索树的高度 */
     int height = 0;
-    binarySearchTreeGetHeight(BST, &height);/* 正确 */
+    binarySearchTreeGetHeight(BST, &height);
     printf("二叉搜索树的高度height:%d\n", height);
 
 
-    
+    PRINT_BOUNDARY;
     // printf("中序遍历\n");
     // binarySearchTreeInOrderTravel(BST);
     // printf("\n");
@@ -105,39 +110,63 @@ int main()
     binarySearchTreeLevelOrderTravel(BST);
     printf("\n");
 
-
+    PRINT_BOUNDARY;
     /* 删除度为2 */
     int delVal = 23;
     printf("删除23\n");
     binarySearchTreeDelete(BST, &delVal);
-    binarySearchTreePreOrderTravel(BST);
-    printf("\n");
-    binarySearchTreeGetNodeSize(BST, &size);
-    printf("size:%d\n", size);
-    binarySearchTreeGetHeight(BST, &height);
-    printf("height:%d\n", height);
-#if 1
-    /* 删除度为1 */
-    delVal = 70;
-    printf("删除70\n");
-    binarySearchTreeDelete(BST, &delVal);
-    binarySearchTreePreOrderTravel(BST);
+    binarySearchTreePreOrderTravel(BST);        // 前序遍历
     printf("\n");
     binarySearchTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
     binarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
 
-    /* 删除度为0 */
-    delVal = 52;
-    printf("删除52\n");
+    PRINT_BOUNDARY;
+    /* 删除度为1 */
+    delVal = 70;
+    printf("删除70\n");
     binarySearchTreeDelete(BST, &delVal);
-    binarySearchTreePreOrderTravel(BST);
+    binarySearchTreePreOrderTravel(BST);        // 前序遍历
     printf("\n");
     binarySearchTreeGetNodeSize(BST, &size);
     printf("size:%d\n", size);
     binarySearchTreeGetHeight(BST, &height);
     printf("height:%d\n", height);
+
+    PRINT_BOUNDARY;
+    /* 删除度为0 */
+    delVal = 52;
+    printf("删除52\n");
+    binarySearchTreeDelete(BST, &delVal);
+    binarySearchTreePreOrderTravel(BST);        // 前序遍历
+    printf("\n");
+    binarySearchTreeGetNodeSize(BST, &size);
+    printf("size:%d\n", size);
+    binarySearchTreeGetHeight(BST, &height);
+    printf("height:%d\n", height);
+
+    // printf("中序遍历\n");
+    // binarySearchTreeInOrderTravel(BST);
+    // printf("\n");
+    // printf("前序遍历\n");/* finished函数调用错误 */
+    // binarySearchTreePreOrderTravel(BST);
+    // printf("\n");
+    // printf("后序遍历\n");/* finished函数调用错误 */
+    // binarySearchTreePostOrderTravel(BST);
+    // printf("\n");
+    printf("层序遍历\n");
+    binarySearchTreeLevelOrderTravel(BST);
+    printf("\n");
 #endif
+
+    // printf("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    // printf("1111\n");
+
+
+
+
+
+
     return 0;
 }

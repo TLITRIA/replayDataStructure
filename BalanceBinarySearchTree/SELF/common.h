@@ -60,5 +60,4 @@ if (NULL != tmpPtr)\
 
 
 
-
 #endif // _COMMON_H_

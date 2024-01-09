@@ -257,14 +257,13 @@ static AVLTreeNode * AVLTreeNodeGetChildTaller(AVLTreeNode *node)
         
         
     }
-    
-    
 }
 
 
 static int AVLTreeNodeAdjustBalance(BalanceBinarySearchTree *pBstree, AVLTreeNode *node)
 {
     /* LL LR RL RR */
+    /* todo左右旋可以合并 */
     AVLTreeNode *parent = AVLTreeNodeGetChildTaller(node);
     AVLTreeNode *child = AVLTreeNodeGetChildTaller(parent);
 
@@ -673,14 +672,13 @@ int balanceBinarySearchTreePostOrderTravel(BalanceBinarySearchTree *pBstree)
 int balanceBinarySearchTreeLevelOrderTravel(BalanceBinarySearchTree *pBstree)
 {
     AVLTreeNode *nodeVal = NULL;
-    // AVLTreeNode * queueNode = pBstree->root;
     DoubleLinkListQueue * pQueue = NULL;
     doubleLinkListQueueInit(&pQueue, compareFunc, printFunc);
+    doubleLinkListQueuePush(pQueue, pBstree->root);
     while (!doubleLinkListQueueIsEmpty(pQueue))
     {
         doubleLinkListQueueTop(pQueue, (void **)&nodeVal);
-        printf("data%d\n", *(int *)nodeVal->data);
-        pBstree->printFunc(nodeVal->data);/* todo */
+        pBstree->printFunc(nodeVal->data);
         doubleLinkListQueuePop(pQueue);
         /* 左右子树入队 */
         if (nodeVal->left != NULL)

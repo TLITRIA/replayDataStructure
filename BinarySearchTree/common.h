@@ -4,8 +4,6 @@
 
 #define ELEMENTTYPE void*
 
-
-
 /* 双向链表结点 */
 typedef struct DoubleLinkNode
 {
@@ -26,14 +24,6 @@ typedef struct DoubleLinkList
 
 typedef DoubleLinkList DoubleLinkListQueue;
 
-
-
-
-
-
-
-
-
 // 状态码
 enum STATUS_CODE
 {
@@ -44,27 +34,32 @@ enum STATUS_CODE
     ON_SUCCESS,
 };
 
-#define START_POS 0/* todo */
+#define START_POS 0
 
+/* 判空 */
 #define JUDGE_NULL(p)   \
 if (NULL == p)          \
     return NULL_PTR;    \
 
+/* 判空返回值为NULL */
 #define JUDGE_NULL_RETURN_NULL(p)   \
 if (NULL == p)          \
     return NULL;    \
 
+/* 判断MALLOC是否成功分配内存 */
 #define JUDGE_MALLOC(p)     \
 if (NULL == p)              \
     return MALLOC_ERROR;    \
 
-
-/* 输出 */
+/* 打印一个变量和它的变量名 */
 #define PRINT_INT(num) \
 //printf("%s:%d\n", #num, num);
 
-#define PRINT //printf("=========\n")
-#define PRINT_TAIL //printf("！尾结点更新\n")
+/* 打印分割线 */
+#define PRINT_BOUNDARY printf("=============\n")
+
+/* 打印提示 */
+#define PRINT_TIP //printf("！尾结点更新\n")
 
 /* 释放指针 */
 #define FREE(p) \

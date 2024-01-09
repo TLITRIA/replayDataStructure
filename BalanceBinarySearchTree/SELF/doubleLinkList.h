@@ -1,8 +1,6 @@
 #ifndef __MYDoubleLinkList_H_
 #define __MYDoubleLinkList_H_
-
 #include "common.h"
-
 
 
 /* 链表初始化 */
@@ -35,24 +33,24 @@ int myDoubleLinkListDelAppointVal(DoubleLinkList * pList, ELEMENTTYPE val);
 int myDoubleLinkListGetLength(DoubleLinkList * pList, int *size);
 
 /* 获取链表--遍历链表元素 */
-int myDoubleLinkListForeach(DoubleLinkList * pList);
+int myDoubleLinkListForeach(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE));
 
-
-/* 双向链表打印接口 */
-int myDoubleLinkListReversePirnt(DoubleLinkList * pList);
+/* 双向链表逆序打印 */
+int myDoubleLinkListReversePirnt(DoubleLinkList * pList, int (*printFunc)(ELEMENTTYPE));
 
 
 /* 销毁链表 */
 int myDoubleLinkListDestroy(DoubleLinkList * pList);
 
 
-/* 获取队头元素 */
-int myDoubleLinkListGetHeadVal(DoubleLinkList * pList, ELEMENTTYPE *pVal);
+/* 获取链表 头位置的值 */
+int myDoubleLinkListGetHeadVal(DoubleLinkList *pList, ELEMENTTYPE *pVal);
 
-
-/* 获取队尾元素 */
-int myDoubleLinkListGetTailVal(DoubleLinkList * pList, ELEMENTTYPE *pVal);
+/* 获取链表 尾位置的值 */
+int myDoubleLinkListGetTailVal(DoubleLinkList *pList, ELEMENTTYPE *pVal);
 
 /* 获取链表 指定位置的值 */
 int myDoubleLinkListGetPosVal(DoubleLinkList *pList, int pos, ELEMENTTYPE *pVal);
+
+
 #endif
