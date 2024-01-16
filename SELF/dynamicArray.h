@@ -9,15 +9,17 @@ typedef struct DynamicArray
     int length;
     int capacity;
     /* 钩子函数to */
-    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2);
-    int (*printFunc)(ELEMENTTYPE val);
+    int (*compareF)(ELEMENTTYPE val1, ELEMENTTYPE val2);
+    int (*printF)(ELEMENTTYPE val);
 } DynamicArray;
 
 
 
 
 /* 初始化 */
-int dynamicArrayInit(DynamicArray **pArray, int cap);
+int dynamicArrayInit(DynamicArray **pArray, int cap, 
+                    int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
+                    int (*printFunc)(ELEMENTTYPE val));
 
 /* 插入行末 */
 int dynamicArrayInsertTail(DynamicArray *pArray, ELEMENTTYPE val);
