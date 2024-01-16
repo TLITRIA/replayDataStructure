@@ -2,10 +2,15 @@
 #define __COMMON_H_
 
 
+#define FALSE 0
+#define TRUE 1
+
+
 
 /* 错误码 */
 enum ERROR_CODE
 {
+    NOT_FIND = -4,
     INVILID_ACCESS = -3,
     NULL_PTR,
     MALLOC_ERROR,

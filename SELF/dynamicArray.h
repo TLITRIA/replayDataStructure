@@ -8,8 +8,6 @@ typedef struct DynamicArray
     ELEMENTTYPE *data;
     int length;
     int capacity;
-    int minCapacity;
-    int maxCapacity;
     /* 钩子函数to */
     int (*compareF)(ELEMENTTYPE val1, ELEMENTTYPE val2);
     int (*printF)(ELEMENTTYPE val);
