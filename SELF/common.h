@@ -2,9 +2,12 @@
 #define __COMMON_H_
 
 
-#define ELEMENTTYPE void*
 
-
+/* 错误码 */
+enum ERROR_CODE
+{
+    ON_SUCCESS,
+};
 
 
 
