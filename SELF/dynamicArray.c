@@ -29,7 +29,7 @@ static int scaleArrayCapacity(DynamicArray *pArray, int cap)
 static int ifNeedScale(DynamicArray *pArray);
 
 /* 初始化 */
-int dynamicArrayInit(DynamicArray **pArray, int cap, 
+int dynamicArrayInit(DynamicArray **pArray, int cap,  int maxCap, int minCap,
                     int (*compareFunc)(ELEMENTTYPE val1, ELEMENTTYPE val2),
                     int (*printFunc)(ELEMENTTYPE val))
 {
@@ -74,10 +74,7 @@ int dynamicArrayInsertAppointPos(DynamicArray *pArray, ELEMENTTYPE val, int pos)
     }
 
     /* 判断是否要放缩 */
-    if (/* condition */)
-    {
-        /* code */
-    }
+    
     
 }
 
