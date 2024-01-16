@@ -7,6 +7,7 @@
     宏定义ELEMENTTYPE
     状态码
     宏函数
+    **钩子函数的使用、写法
 
 # binarySearchTree.h
 

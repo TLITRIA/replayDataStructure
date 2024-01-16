@@ -54,7 +54,7 @@ int balanceBinarySearchTreeGetNodeSize(BalanceBinarySearchTree *pBstree, int *pS
 /* 获取二叉搜索树的高度 */
 int balanceBinarySearchTreeGetHeight(BalanceBinarySearchTree *pBstree, int *pHeight);
 
-/* 二叉搜索树的销毁 */
+/* 二叉搜索树的删除 */
 int balanceBinarySearchTreeDelete(BalanceBinarySearchTree *pBstree, ELEMENTTYPE val);
 
 /* 二叉搜索树的销毁 */
